@@ -28,7 +28,7 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public Result<Object> handleBusinessException(BusinessException e) throws Exception {
+    public Result<Object> handleBusinessException(BusinessException e) {
         log.error(e.getMessage(), e);
 
         // 如果某个自定义异常有@ResponseStatus注解，就继续抛出
@@ -42,7 +42,7 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler(SystemException.class)
-    public Result<Object> handleSystemException(SystemException e) throws Exception {
+    public Result<Object> handleSystemException(SystemException e) {
         log.error(e.getMessage(), e);
 
         // 如果某个自定义异常有@ResponseStatus注解，就继续抛出
@@ -56,7 +56,7 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public Result<Object> handleNullPointerException(NullPointerException e) throws Exception {
+    public Result<Object> handleNullPointerException(NullPointerException e) {
         log.error(e.getMessage(), e);
 
         // 如果某个自定义异常有@ResponseStatus注解，就继续抛出
