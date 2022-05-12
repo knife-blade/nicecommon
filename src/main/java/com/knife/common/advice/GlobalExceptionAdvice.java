@@ -66,7 +66,7 @@ public class GlobalExceptionAdvice {
 
         // 实际项目中应该这样写，防止用户看到详细的异常信息
         // return new Result<>().failure().message("操作失败");
-        String message = ThrowableUtil.getStackTraceByPackage(e, "com.knife");
+        String message = ThrowableUtil.getLastStackTrace(e, null);
         return new Result<>().failure().message(message);
     }
 }

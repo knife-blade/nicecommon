@@ -35,4 +35,28 @@ public class ThrowableUtil {
         }
         return s.toString();
     }
+
+    /**
+     * 获取最后n条堆栈信息
+     * @param e 异常对象
+     * @param n 最后n条
+     * @return 错误信息
+     */
+    public static String getLastStackTrace(Throwable e, Integer n) {
+        Integer lineNumber = n;
+        if (lineNumber == null) {
+            lineNumber = 10;
+        }
+
+        StringBuilder s = new StringBuilder().append(e);
+        int i = 0;
+        for (StackTraceElement traceElement : e.getStackTrace()) {
+            s.append("    at ").append(traceElement);
+            if (i >= lineNumber) {
+                break;
+            }
+            i++;
+        }
+        return s.toString();
+    }
 }
