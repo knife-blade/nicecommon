@@ -63,10 +63,9 @@ public class JsonUtil {
         }
     }
 
-    public static <T> List<T> getObjectListFromString(String string) {
+    public static <T> List<T> getObjectListFromString(String string, TypeReference<List<T>> typeReference) {
         try {
-            return objectMapper.readValue(string, new TypeReference<List<T>>() {
-            });
+            return objectMapper.readValue(string, typeReference);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
