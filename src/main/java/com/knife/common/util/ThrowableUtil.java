@@ -22,7 +22,7 @@ public class ThrowableUtil {
      * 获取最后n条堆栈信息
      *
      * @param e 异常对象
-     * @param n 最后n条
+     * @param n 最后n行
      * @return 错误信息
      */
     public static String getLastStackTrace(Throwable e, Integer n) {
@@ -94,7 +94,7 @@ public class ThrowableUtil {
      * 获取最后n条简略堆栈信息（方法名加行号）
      *
      * @param e 异常对象
-     * @param n 最后n条
+     * @param n 最后n行
      * @return 错误信息
      */
     public static String getBriefLastStackTrace(Throwable e, Integer n) {
@@ -138,7 +138,7 @@ public class ThrowableUtil {
     }
 
     /**
-     * 获取以指定包名为前缀的最后n条简略堆栈信息（方法名+包名）
+     * 获取以指定包名为前缀的最后n行简略堆栈信息（方法名+包名）
      *
      * @param e             异常
      * @param packagePrefix 包前缀
