@@ -37,7 +37,7 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             // 若返回值为String类型，需要包装为String类型返回。否则会报错
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
-                ResultWrapper<Object> resultWrapper = ResultWrapper.success(body);
+                ResultWrapper<Object> resultWrapper = ResultWrapper.success().data(body);
                 return objectMapper.writeValueAsString(resultWrapper);
             } catch (JsonProcessingException e) {
                 throw new RuntimeException("序列化String错误");
@@ -49,7 +49,7 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
 
-        return ResultWrapper.success(body);
+        return ResultWrapper.success().data(body);
     }
 
     private boolean isKnife4jUrl(String uri) {

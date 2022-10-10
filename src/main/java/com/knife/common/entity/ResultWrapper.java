@@ -9,46 +9,37 @@ public class ResultWrapper<T> {
 
     private Integer code;
 
-    private String message;
-
     private T data;
+
+    private String message;
 
     private ResultWrapper() {
     }
 
     public static <T> ResultWrapper<T> success() {
-        return restResult(null, ResultCode.SUCCESS.getCode(), null);
-    }
-
-    public static <T> ResultWrapper<T> success(T data) {
-        return restResult(data, ResultCode.SUCCESS.getCode(), null);
-    }
-
-    public static <T> ResultWrapper<T> success(T data, String msg) {
-        return restResult(data, ResultCode.SUCCESS.getCode(), msg);
+        return assemble(null, ResultCode.SUCCESS.getCode(), null);
     }
 
     public static <T> ResultWrapper<T> failure() {
-        return restResult(null, ResultCode.SYSTEM_FAILURE.getCode(), null);
+        return assemble(null, ResultCode.SYSTEM_FAILURE.getCode(), null);
     }
 
-    public static <T> ResultWrapper<T> failure(String msg) {
-        return restResult(null, ResultCode.SYSTEM_FAILURE.getCode(), msg);
+    public ResultWrapper<T> data(T data) {
+        this.setData(data);
+        return this;
     }
 
-    public static <T> ResultWrapper<T> failure(T data) {
-        return restResult(data, ResultCode.SYSTEM_FAILURE.getCode(), null);
+    public ResultWrapper<T> message(String message) {
+        this.setMessage(message);
+        return this;
     }
 
-    public static <T> ResultWrapper<T> failure(T data, String msg) {
-        return restResult(data, ResultCode.SYSTEM_FAILURE.getCode(), msg);
+    public ResultWrapper<T> code(int code) {
+        this.setCode(code);
+        return this;
     }
 
-    public static <T> ResultWrapper<T> failure(int code, String msg) {
-        return restResult(null, code, msg);
-    }
-
-    private static <T> ResultWrapper<T> restResult(T data, int code, String message) {
+    private static <T> ResultWrapper<T> assemble(T data, int code, String message) {
         ResultWrapper<T> resultWrapper = new ResultWrapper<>();
         resultWrapper.setCode(code);
         resultWrapper.setData(data);

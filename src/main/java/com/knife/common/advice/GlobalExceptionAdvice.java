@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
     @ExceptionHandler(Exception.class)
-    public ResultWrapper<Object> handleException(Exception e) throws Exception {
+    public ResultWrapper<?> handleException(Exception e) throws Exception {
         log.error(e.getMessage(), e);
 
         // 如果某个自定义异常有@ResponseStatus注解，就继续抛出
@@ -22,11 +22,11 @@ public class GlobalExceptionAdvice {
             throw e;
         }
 
-        return ResultWrapper.failure(e.getMessage());
+        return ResultWrapper.failure().message(e.getMessage());
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResultWrapper<Object> handleBusinessException(BusinessException e) {
+    public ResultWrapper<?> handleBusinessException(BusinessException e) {
         log.error(e.getMessage(), e);
 
         // 如果某个自定义异常有@ResponseStatus注解，就继续抛出
@@ -34,11 +34,11 @@ public class GlobalExceptionAdvice {
             throw e;
         }
 
-        return ResultWrapper.failure(e.getMessage());
+        return ResultWrapper.failure().message(e.getMessage());
     }
 
     @ExceptionHandler(SystemException.class)
-    public ResultWrapper<Object> handleSystemException(SystemException e) {
+    public ResultWrapper<?> handleSystemException(SystemException e) {
         log.error(e.getMessage(), e);
 
         // 如果某个自定义异常有@ResponseStatus注解，就继续抛出
@@ -46,11 +46,11 @@ public class GlobalExceptionAdvice {
             throw e;
         }
 
-        return ResultWrapper.failure(e.getMessage());
+        return ResultWrapper.failure().message(e.getMessage());
     }
 
     @ExceptionHandler(NullPointerException.class)
-    public ResultWrapper<Object> handleNullPointerException(NullPointerException e) {
+    public ResultWrapper<?> handleNullPointerException(NullPointerException e) {
         log.error(e.getMessage(), e);
 
         // 如果某个自定义异常有@ResponseStatus注解，就继续抛出
@@ -59,6 +59,6 @@ public class GlobalExceptionAdvice {
         }
 
         String message = ThrowableUtil.getLastStackTrace(e, null);
-        return ResultWrapper.failure(message);
+        return ResultWrapper.failure().message(message);
     }
 }
