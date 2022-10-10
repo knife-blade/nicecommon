@@ -17,11 +17,11 @@ public class ResultWrapper<T> {
     }
 
     public static <T> ResultWrapper<T> success() {
-        return assemble(null, ResultCode.SUCCESS.getCode(), null);
+        return assemble(ResultCode.SUCCESS.getCode(), true);
     }
 
     public static <T> ResultWrapper<T> failure() {
-        return assemble(null, ResultCode.SYSTEM_FAILURE.getCode(), null);
+        return assemble(ResultCode.SYSTEM_FAILURE.getCode(), false);
     }
 
     public ResultWrapper<T> data(T data) {
@@ -39,12 +39,10 @@ public class ResultWrapper<T> {
         return this;
     }
 
-    private static <T> ResultWrapper<T> assemble(T data, int code, String message) {
+    private static <T> ResultWrapper<T> assemble(int code, boolean success) {
         ResultWrapper<T> resultWrapper = new ResultWrapper<>();
         resultWrapper.setCode(code);
-        resultWrapper.setData(data);
-        resultWrapper.setMessage(message);
-        resultWrapper.setSuccess(code == ResultCode.SUCCESS.getCode());
+        resultWrapper.setSuccess(success);
 
         return resultWrapper;
     }
