@@ -20,16 +20,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
-    public boolean supports(MethodParameter returnType,
+    public boolean supports(MethodParameter methodParameter,
                             Class<? extends HttpMessageConverter<?>> converterType) {
         // 若接口返回的类型本身就是ResultWrapper，则无需操作，返回false
-        // return !returnType.getParameterType().equals(ResultWrapper.class);
+        // return !methodParameter.getParameterType().equals(ResultWrapper.class);
         return true;
     }
 
     @Override
     @ResponseBody
-    public Object beforeBodyWrite(Object body, MethodParameter returnType,
+    public Object beforeBodyWrite(Object body, MethodParameter methodParameter,
                                   MediaType selectedContentType,
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
