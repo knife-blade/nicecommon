@@ -14,7 +14,8 @@ import java.util.Map;
  * Json工具
  */
 public class JsonUtil {
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper =
+            ApplicationContextHolder.getContext().getBean(ObjectMapper.class);
 
     static {
         // 反序列化：JSON字段中有Java对象中没有的字段时不报错
