@@ -22,14 +22,14 @@ public class Knife4jConfig {
                         .title("我的标题")
                         .description("我的描述")
                         // .termsOfServiceUrl("http://www.xx.com/")
-                        .contact(new Contact("knife", "https://knife.blog.csdn.net/", "xx@qq.com"))
+                        .contact(new Contact("xxx", "https://xxx.com", "xxx@qq.com"))
                         .version("1.0")
                         .build())
                 // 分组名称
                 .groupName("all")
                 .select()
                 // 这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.example.demo"))
+                .apis(RequestHandlerSelectors.basePackage("com.knife"))
                 .paths(PathSelectors.any())
                 .build();
 
