@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,6 +32,10 @@ public class JsonUtil {
         //objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     }
 
+    public static ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
     public static <T> T toObject(String string, Class<T> cls) {
         try {
             return objectMapper.readValue(string, cls);
@@ -42,6 +47,14 @@ public class JsonUtil {
     public static <T> T toObject(String str, TypeReference<T> valueTypeRef) {
         try {
             return objectMapper.readValue(str, valueTypeRef);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static <T> T toObject(String str, JavaType javaType) {
+        try {
+            return objectMapper.readValue(str, javaType);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

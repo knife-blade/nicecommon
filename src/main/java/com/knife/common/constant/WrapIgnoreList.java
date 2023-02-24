@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public interface WhiteList {
+/**
+ * 全局响应中不包装的url列表
+ */
+public interface WrapIgnoreList {
     List<String> KNIFE4J = Arrays.asList(
             "/doc.html",
             "/swagger-resources",

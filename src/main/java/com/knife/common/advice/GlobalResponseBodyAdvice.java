@@ -2,7 +2,7 @@ package com.knife.common.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.knife.common.constant.WhiteList;
+import com.knife.common.constant.WrapIgnoreList;
 import com.knife.common.entity.ResultWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -24,6 +24,8 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                             Class<? extends HttpMessageConverter<?>> converterType) {
         // 若接口返回的类型本身就是ResultWrapper，则无需操作，返回false
         // return !methodParameter.getParameterType().equals(ResultWrapper.class);
+
+        // 本处全部都放过，在后边进行处理
         return true;
     }
 
@@ -54,7 +56,7 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     private boolean isKnife4jUrl(String uri) {
         AntPathMatcher pathMatcher = new AntPathMatcher();
-        for (String s : WhiteList.KNIFE4J) {
+        for (String s : WrapIgnoreList.KNIFE4J) {
             if (pathMatcher.match(s, uri)) {
                 return true;
             }
