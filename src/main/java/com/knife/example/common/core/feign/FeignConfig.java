@@ -1,4 +1,4 @@
-package com.knife.common.feign;
+package com.knife.example.common.core.feign;
 
 import feign.Logger;
 import feign.codec.Decoder;

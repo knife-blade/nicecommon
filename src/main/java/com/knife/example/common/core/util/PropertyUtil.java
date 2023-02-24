@@ -1,4 +1,4 @@
-package com.knife.common.util;
+package com.knife.example.common.core.util;
  
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;

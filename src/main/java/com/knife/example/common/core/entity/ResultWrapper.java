@@ -1,6 +1,6 @@
-package com.knife.common.entity;
+package com.knife.example.common.core.entity;
 
-import com.knife.common.constant.ResultCode;
+import com.knife.example.common.core.constant.ResultCode;
 import lombok.Data;
 
 @Data

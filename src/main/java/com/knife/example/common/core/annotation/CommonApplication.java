@@ -1,4 +1,4 @@
-package com.knife.common.annotation;
+package com.knife.example.common.core.annotation;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

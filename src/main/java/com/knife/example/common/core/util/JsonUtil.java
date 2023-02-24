@@ -1,4 +1,4 @@
-package com.knife.common.util;
+package com.knife.example.common.core.util;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;

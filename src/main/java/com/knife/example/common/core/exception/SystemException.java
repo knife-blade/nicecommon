@@ -1,4 +1,4 @@
-package com.knife.common.exception;
+package com.knife.example.common.core.exception;
 
 /**
  * 系统异常

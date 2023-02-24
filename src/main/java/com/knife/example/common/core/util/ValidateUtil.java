@@ -1,4 +1,4 @@
-package com.knife.common.util;
+package com.knife.example.common.core.util;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

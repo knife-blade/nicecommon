@@ -1,4 +1,4 @@
-package com.knife.controller;
+package com.knife.example.common.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

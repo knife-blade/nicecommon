@@ -1,4 +1,4 @@
-package com.knife.common.constant;
+package com.knife.example.common.core.constant;
 
 public enum ResultCode {
     SUCCESS(1000, "访问成功"),

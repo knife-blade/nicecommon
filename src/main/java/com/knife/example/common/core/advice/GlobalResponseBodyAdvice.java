@@ -1,9 +1,9 @@
-package com.knife.common.advice;
+package com.knife.example.common.core.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.knife.common.constant.WrapIgnoreList;
-import com.knife.common.entity.ResultWrapper;
+import com.knife.example.common.core.constant.WrapIgnoreList;
+import com.knife.example.common.core.entity.ResultWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

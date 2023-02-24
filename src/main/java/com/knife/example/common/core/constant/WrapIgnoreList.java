@@ -1,4 +1,4 @@
-package com.knife.common.constant;
+package com.knife.example.common.core.constant;
 
 import java.util.ArrayList;
 import java.util.Arrays;

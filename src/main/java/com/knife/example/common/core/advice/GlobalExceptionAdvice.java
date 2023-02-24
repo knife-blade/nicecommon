@@ -1,9 +1,9 @@
-package com.knife.common.advice;
+package com.knife.example.common.core.advice;
 
-import com.knife.common.entity.ResultWrapper;
-import com.knife.common.exception.BusinessException;
-import com.knife.common.exception.SystemException;
-import com.knife.common.util.ThrowableUtil;
+import com.knife.example.common.core.entity.ResultWrapper;
+import com.knife.example.common.core.exception.BusinessException;
+import com.knife.example.common.core.exception.SystemException;
+import com.knife.example.common.core.util.ThrowableUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.web.bind.annotation.ExceptionHandler;

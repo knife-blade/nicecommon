@@ -1,9 +1,8 @@
-package com.knife.common.feign;
+package com.knife.example.common.core.feign;
 
 import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.knife.common.entity.ResultWrapper;
-import com.knife.common.util.JsonUtil;
+import com.knife.example.common.core.entity.ResultWrapper;
+import com.knife.example.common.core.util.JsonUtil;
 import feign.FeignException;
 import feign.Response;
 import feign.codec.DecodeException;
@@ -14,7 +13,6 @@ import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.lang.NonNullApi;
 import org.springframework.web.client.HttpMessageConverterExtractor;
 
 import java.io.IOException;
