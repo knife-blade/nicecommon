@@ -6,6 +6,7 @@ import com.knife.example.common.core.constant.WrapIgnoreList;
 import com.knife.example.common.core.entity.ResultWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
@@ -35,6 +36,9 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                                   MediaType selectedContentType,
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
+
+        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
         if (body instanceof String) {
             // 若返回值为String类型，需要包装为String类型返回。否则会报错
             try {
