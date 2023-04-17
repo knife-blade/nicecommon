@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class ResultWrapper<T> {
-    private boolean success;
+    private Boolean success = true;
 
     private Integer code;
 
@@ -17,11 +17,19 @@ public class ResultWrapper<T> {
     }
 
     public static <T> ResultWrapper<T> success() {
-        return assemble(ResultCode.SUCCESS.getCode(), true);
+        return success(null);
     }
 
-    public static <T> ResultWrapper<T> failure() {
-        return assemble(ResultCode.SYSTEM_FAILURE.getCode(), false);
+    public static <T> ResultWrapper<T> success(T data) {
+        return assemble(ResultCode.SUCCESS.getCode(), true, data);
+    }
+
+    public static <T> ResultWrapper<T> error() {
+        return error(null);
+    }
+
+    public static <T> ResultWrapper<T> error(T data) {
+        return assemble(ResultCode.SYSTEM_FAILURE.getCode(), false, data);
     }
 
     public ResultWrapper<T> data(T data) {
@@ -39,10 +47,11 @@ public class ResultWrapper<T> {
         return this;
     }
 
-    private static <T> ResultWrapper<T> assemble(int code, boolean success) {
+    public static <T> ResultWrapper<T> assemble(int code, boolean success, T data) {
         ResultWrapper<T> resultWrapper = new ResultWrapper<>();
         resultWrapper.setCode(code);
         resultWrapper.setSuccess(success);
+        resultWrapper.setData(data);
 
         return resultWrapper;
     }

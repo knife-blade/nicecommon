@@ -22,7 +22,7 @@ public class GlobalExceptionAdvice {
             throw e;
         }
 
-        return ResultWrapper.failure().message(e.getMessage());
+        return ResultWrapper.error().message(e.getMessage());
     }
 
     @ExceptionHandler(BusinessException.class)
@@ -33,8 +33,7 @@ public class GlobalExceptionAdvice {
         if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
             throw e;
         }
-
-        return ResultWrapper.failure().message(e.getMessage());
+        return ResultWrapper.error().message(e.getMessage());
     }
 
     @ExceptionHandler(SystemException.class)
@@ -46,7 +45,7 @@ public class GlobalExceptionAdvice {
             throw e;
         }
 
-        return ResultWrapper.failure().message(e.getMessage());
+        return ResultWrapper.error().message(e.getMessage());
     }
 
     @ExceptionHandler(NullPointerException.class)
@@ -59,6 +58,6 @@ public class GlobalExceptionAdvice {
         }
 
         String message = ThrowableUtil.getLastStackTrace(e, null);
-        return ResultWrapper.failure().message(message);
+        return ResultWrapper.error().message(message);
     }
 }
