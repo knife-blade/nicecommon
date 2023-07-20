@@ -33,6 +33,7 @@ public class GlobalExceptionAdvice {
         if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
             throw e;
         }
+
         return ResultWrapper.error().message(e.getMessage());
     }
 

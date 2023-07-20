@@ -2,7 +2,7 @@ package com.knife.example.common.core.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.knife.example.common.core.constant.WrapIgnoreList;
+import com.knife.example.common.core.constant.WrapperIgnoreUrl;
 import com.knife.example.common.core.entity.ResultWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -60,7 +60,7 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     private boolean isKnife4jUrl(String uri) {
         AntPathMatcher pathMatcher = new AntPathMatcher();
-        for (String s : WrapIgnoreList.KNIFE4J) {
+        for (String s : WrapperIgnoreUrl.KNIFE4J) {
             if (pathMatcher.match(s, uri)) {
                 return true;
             }

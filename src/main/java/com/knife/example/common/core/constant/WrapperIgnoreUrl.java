@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 全局响应中不包装的url列表
  */
-public interface WrapIgnoreList {
+public interface WrapperIgnoreUrl {
     List<String> KNIFE4J = Arrays.asList(
             "/doc.html",
             "/swagger-resources",
