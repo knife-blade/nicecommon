@@ -1,5 +1,8 @@
 package com.knife.example.common.core.constant;
 
+import lombok.Getter;
+
+@Getter
 public enum ResultCode {
     SUCCESS(1000, "访问成功"),
     SYSTEM_FAILURE(1001, "系统异常"),
@@ -11,13 +14,5 @@ public enum ResultCode {
     ResultCode(int code, String description) {
         this.code = code;
         this.description = description;
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }
