@@ -25,6 +25,19 @@ public class GlobalExceptionAdvice {
         return ResultWrapper.error().message(e.getMessage());
     }
 
+    @ExceptionHandler(NullPointerException.class)
+    public ResultWrapper<?> handleNullPointerException(NullPointerException e) {
+        // 如果某个自定义异常有@ResponseStatus注解，就继续抛出
+        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
+            throw e;
+        }
+
+        String message = ThrowableUtil.getLastStackTrace(e, null);
+        log.error(message);
+
+        return ResultWrapper.error().message("空指针异常，请联系客服");
+    }
+
     @ExceptionHandler(BusinessException.class)
     public ResultWrapper<?> handleBusinessException(BusinessException e) {
         log.error(e.getMessage(), e);
@@ -46,19 +59,7 @@ public class GlobalExceptionAdvice {
             throw e;
         }
 
-        return ResultWrapper.error().message(e.getMessage());
+        return ResultWrapper.error().message("系统异常，请联系客服");
     }
 
-    @ExceptionHandler(NullPointerException.class)
-    public ResultWrapper<?> handleNullPointerException(NullPointerException e) {
-        log.error(e.getMessage(), e);
-
-        // 如果某个自定义异常有@ResponseStatus注解，就继续抛出
-        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
-            throw e;
-        }
-
-        String message = ThrowableUtil.getLastStackTrace(e, null);
-        return ResultWrapper.error().message(message);
-    }
 }
