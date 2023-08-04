@@ -1,4 +1,6 @@
-package com.knife.example.common.core.constant;
+package com.knife.example.common.constant;
+
+import org.springframework.util.AntPathMatcher;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,4 +19,14 @@ public interface WrapperIgnoreUrl {
             "/webjars/**");
 
     List<String> ALL = new ArrayList<>(KNIFE4J);
+
+    static boolean isInWrapperIgnoreUrl(String uri) {
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+        for (String s : WrapperIgnoreUrl.ALL) {
+            if (pathMatcher.match(s, uri)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

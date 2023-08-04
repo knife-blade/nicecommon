@@ -2,7 +2,7 @@ package com.knife.example.common.core.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.knife.example.common.core.constant.WrapperIgnoreUrl;
+import com.knife.example.common.constant.WrapperIgnoreUrl;
 import com.knife.example.common.core.entity.ResultWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -11,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
-import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
@@ -20,6 +19,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 @ControllerAdvice
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
+    /**
+     * 返回值的含义：是否要处理
+     */
     @Override
     public boolean supports(MethodParameter methodParameter,
                             Class<? extends HttpMessageConverter<?>> converterType) {
@@ -50,21 +52,11 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             }
         } else if (body instanceof ResultWrapper) {
             return body;
-        } else if (isKnife4jUrl(request.getURI().getPath())) {
-            // 如果是接口文档uri，直接跳过
+        } else if (WrapperIgnoreUrl.isInWrapperIgnoreUrl(request.getURI().getPath())) {
+            // 如果不需要处理，直接跳过
             return body;
         }
 
         return ResultWrapper.success().data(body);
-    }
-
-    private boolean isKnife4jUrl(String uri) {
-        AntPathMatcher pathMatcher = new AntPathMatcher();
-        for (String s : WrapperIgnoreUrl.KNIFE4J) {
-            if (pathMatcher.match(s, uri)) {
-                return true;
-            }
-        }
-        return false;
     }
 }
