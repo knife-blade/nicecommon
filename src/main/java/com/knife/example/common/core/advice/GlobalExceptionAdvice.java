@@ -5,10 +5,14 @@ import com.knife.example.common.core.exception.BusinessException;
 import com.knife.example.common.core.exception.SystemException;
 import com.knife.example.common.core.util.ThrowableUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -36,6 +40,20 @@ public class GlobalExceptionAdvice {
         log.error(message);
 
         return ResultWrapper.error().message("空指针异常，请联系客服");
+    }
+
+    /**
+     * 数据校验异常
+     */
+    @ExceptionHandler(BindException.class)
+    public ResultWrapper<?> handleBindException(BindException e) {
+        log.error(e.getMessage(), e);
+
+        String message = e.getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(", "));
+
+        return ResultWrapper.error().message(message);
     }
 
     @ExceptionHandler(BusinessException.class)
