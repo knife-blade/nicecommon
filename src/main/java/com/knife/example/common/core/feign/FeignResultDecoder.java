@@ -48,7 +48,7 @@ public class FeignResultDecoder implements Decoder {
                 return extractor.extractData(new FeignResponseAdapter(response));
             } else {
                 ResultWrapper resultWrapper = (ResultWrapper) decode(response, ResultWrapper.class);
-                if (resultWrapper.isSuccess()) {
+                if (resultWrapper.getSuccess()) {
                     if (type == Object.class) {
                         return resultWrapper.getData();
                     } else {

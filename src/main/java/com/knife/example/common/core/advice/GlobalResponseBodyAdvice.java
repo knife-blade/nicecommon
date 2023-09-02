@@ -2,7 +2,7 @@ package com.knife.example.common.core.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.knife.example.common.constant.WrapperIgnoreUrl;
+import com.knife.example.common.core.constant.ProcessIgnoreUrl;
 import com.knife.example.common.core.entity.ResultWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -11,9 +11,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @ControllerAdvice
@@ -39,6 +44,7 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
 
+
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
         if (body instanceof String) {
@@ -51,8 +57,9 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
                 throw new RuntimeException("序列化String错误");
             }
         } else if (body instanceof ResultWrapper) {
+            // 如果已经封装过了，不再封装
             return body;
-        } else if (WrapperIgnoreUrl.isInWrapperIgnoreUrl(request.getURI().getPath())) {
+        } else if (ProcessIgnoreUrl.isInWrapperIgnoreUrl(request.getURI().getPath())) {
             // 如果不需要处理，直接跳过
             return body;
         }
