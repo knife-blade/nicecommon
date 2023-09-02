@@ -2,22 +2,17 @@ package com.knife.example.common.core.advice;
 
 import com.knife.example.common.core.entity.ResultWrapper;
 import com.knife.example.common.core.exception.BusinessException;
-import com.knife.example.common.core.exception.ForbiddenException;
+import com.knife.example.common.core.exception.UnauthorizedException;
 import com.knife.example.common.core.exception.SystemException;
 import com.knife.example.common.core.util.ThrowableUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -71,8 +66,8 @@ public class GlobalExceptionAdvice {
         return ResultWrapper.error().message("系统异常，请联系客服");
     }
 
-    @ExceptionHandler(ForbiddenException.class)
-    public ResultWrapper<?> handleForbiddenException(ForbiddenException e) {
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResultWrapper<?> handleForbiddenException(UnauthorizedException e) {
         log.error(e.getMessage(), e);
 
         // 若某个自定义异常有@ResponseStatus注解，就继续抛出，这样状态码就能正常响应
