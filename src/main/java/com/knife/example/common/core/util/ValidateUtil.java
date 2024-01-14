@@ -4,6 +4,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.ValidationException;
 import javax.validation.Validator;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -29,6 +30,15 @@ public class ValidateUtil {
     }
 
     /**
+     * 校验实体类集合
+     */
+    public static <T> void validate(Collection<T> tCollection) {
+        for (T t : tCollection) {
+            validate(t);
+        }
+    }
+
+    /**
      * 通过组来校验实体类
      */
     public static <T> void validate(T t, Class<?>... groups) {
@@ -40,6 +50,15 @@ public class ValidateUtil {
             }
 
             throw new ValidationException(validateError.toString());
+        }
+    }
+
+    /**
+     * 通过组来校验实体类集合
+     */
+    public static <T> void validate(Collection<T> tCollection, Class<?>... groups) {
+        for (T t : tCollection) {
+            validate(t, groups);
         }
     }
 }
