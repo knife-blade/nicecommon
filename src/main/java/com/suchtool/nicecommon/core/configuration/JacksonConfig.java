@@ -1,4 +1,4 @@
-package com.knife.example.common.core.config;
+package com.suchtool.nicecommon.core.configuration;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;

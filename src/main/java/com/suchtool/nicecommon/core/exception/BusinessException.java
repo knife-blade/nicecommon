@@ -1,4 +1,4 @@
-package com.knife.example.common.core.exception;
+package com.suchtool.nicecommon.core.exception;
 
 /**
  * 业务异常

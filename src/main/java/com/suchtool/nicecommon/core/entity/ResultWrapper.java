@@ -1,6 +1,6 @@
-package com.knife.example.common.core.entity;
+package com.suchtool.nicecommon.core.entity;
 
-import com.knife.example.common.core.constant.ResultCode;
+import com.suchtool.nicecommon.core.constant.ResultCode;
 import lombok.Data;
 
 @Data

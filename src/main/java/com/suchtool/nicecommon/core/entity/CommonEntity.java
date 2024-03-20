@@ -1,4 +1,4 @@
-package com.knife.example.common.core.entity;
+package com.suchtool.nicecommon.core.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

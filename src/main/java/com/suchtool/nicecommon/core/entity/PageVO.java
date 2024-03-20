@@ -1,4 +1,4 @@
-package com.knife.example.common.core.entity;
+package com.suchtool.nicecommon.core.entity;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;

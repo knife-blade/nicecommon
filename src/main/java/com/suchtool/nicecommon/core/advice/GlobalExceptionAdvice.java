@@ -1,10 +1,9 @@
-package com.knife.example.common.core.advice;
+package com.suchtool.nicecommon.core.advice;
 
-import com.knife.example.common.core.entity.ResultWrapper;
-import com.knife.example.common.core.exception.BusinessException;
-import com.knife.example.common.core.exception.UnauthorizedException;
-import com.knife.example.common.core.exception.SystemException;
-import com.knife.example.common.core.util.ThrowableUtil;
+import com.suchtool.nicecommon.core.entity.ResultWrapper;
+import com.suchtool.nicecommon.core.exception.AuthenticationException;
+import com.suchtool.nicecommon.core.exception.BusinessException;
+import com.suchtool.nicecommon.core.exception.SystemException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -20,7 +19,6 @@ import java.util.stream.Collectors;
 public class GlobalExceptionAdvice {
     @ExceptionHandler(Exception.class)
     public ResultWrapper<?> handleException(Exception e) throws Exception {
-        log.error(e.getMessage(), e);
 
         // 若某个自定义异常有@ResponseStatus注解，就继续抛出，这样状态码就能正常响应
         if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
@@ -32,9 +30,6 @@ public class GlobalExceptionAdvice {
 
     @ExceptionHandler(NullPointerException.class)
     public ResultWrapper<?> handleNullPointerException(NullPointerException e) {
-        String message = ThrowableUtil.getLastStackTrace(e, null);
-        log.error(message);
-
         return ResultWrapper.error().message("空指针异常，请联系客服");
     }
 
@@ -43,8 +38,6 @@ public class GlobalExceptionAdvice {
      */
     @ExceptionHandler(BindException.class)
     public ResultWrapper<?> handleBindException(BindException e) {
-        log.error(e.getMessage(), e);
-
         String message = e.getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(", "));
@@ -54,21 +47,16 @@ public class GlobalExceptionAdvice {
 
     @ExceptionHandler(BusinessException.class)
     public ResultWrapper<?> handleBusinessException(BusinessException e) {
-        log.error(e.getMessage(), e);
-
         return ResultWrapper.error().message(e.getMessage());
     }
 
     @ExceptionHandler(SystemException.class)
     public ResultWrapper<?> handleSystemException(SystemException e) {
-        log.error(e.getMessage(), e);
-
         return ResultWrapper.error().message("系统异常，请联系客服");
     }
 
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResultWrapper<?> handleForbiddenException(UnauthorizedException e) {
-        log.error(e.getMessage(), e);
+    @ExceptionHandler(AuthenticationException.class)
+    public ResultWrapper<?> handleForbiddenException(AuthenticationException e) {
 
         // 若某个自定义异常有@ResponseStatus注解，就继续抛出，这样状态码就能正常响应
         if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {

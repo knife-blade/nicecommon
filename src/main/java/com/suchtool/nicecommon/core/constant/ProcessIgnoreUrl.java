@@ -1,4 +1,4 @@
-package com.knife.example.common.core.constant;
+package com.suchtool.nicecommon.core.constant;
 
 import org.springframework.util.AntPathMatcher;
 

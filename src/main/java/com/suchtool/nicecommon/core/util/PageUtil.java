@@ -1,12 +1,10 @@
-package com.knife.example.common.core.util;
+package com.suchtool.nicecommon.core.util;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.knife.example.common.core.entity.PageBO;
-import com.knife.example.common.core.entity.PageVO;
+import com.suchtool.nicecommon.core.entity.PageBO;
+import com.suchtool.nicecommon.core.entity.PageVO;
 import com.suchtool.nicetool.util.base.BeanUtil;
-import org.springframework.beans.BeanUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PageUtil {
