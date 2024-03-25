@@ -10,11 +10,11 @@
     </parent>
 
     <groupId>com.suchtool</groupId>
-    <artifactId>nicecommon</artifactId>
+    <artifactId>nicecommon-spring-boot-starter</artifactId>
     <version>1.0.0</version>
 
     <packaging>jar</packaging>
-    <name>nicecommon</name>
+    <name>nicecommon-spring-boot-starter</name>
     <description>nicecommon</description>
 
     <dependencies>
