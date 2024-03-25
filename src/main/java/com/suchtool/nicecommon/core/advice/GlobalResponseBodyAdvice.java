@@ -6,6 +6,7 @@ import com.suchtool.nicecommon.core.constant.ProcessIgnoreUrl;
 import com.suchtool.nicecommon.core.entity.ResultWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -17,7 +18,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object> {
+public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ordered {
+    private final int order;
+
+    public GlobalResponseBodyAdvice(int order) {
+        this.order = order;
+    }
+
+    @Override
+    public int getOrder() {
+        return order;
+    }
 
     /**
      * 返回值的含义：是否要处理

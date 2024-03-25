@@ -6,6 +6,7 @@ import com.suchtool.nicecommon.core.exception.BusinessException;
 import com.suchtool.nicecommon.core.exception.SystemException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,7 +17,18 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionAdvice {
+public class GlobalExceptionAdvice implements Ordered {
+    private final int order;
+
+    public GlobalExceptionAdvice(int order) {
+        this.order = order;
+    }
+
+    @Override
+    public int getOrder() {
+        return order;
+    }
+
     @ExceptionHandler(Exception.class)
     public ResultWrapper<?> handleException(Exception e) throws Exception {
 
