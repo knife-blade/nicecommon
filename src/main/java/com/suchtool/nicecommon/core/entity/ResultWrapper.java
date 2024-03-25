@@ -29,7 +29,7 @@ public class ResultWrapper<T> {
     }
 
     public static <T> ResultWrapper<T> error(T data) {
-        return assemble(ResultCode.SYSTEM_FAILURE.getCode(), false, data);
+        return assemble(ResultCode.BUSINESS_FAIL.getCode(), false, data);
     }
 
     public ResultWrapper<T> data(T data) {
