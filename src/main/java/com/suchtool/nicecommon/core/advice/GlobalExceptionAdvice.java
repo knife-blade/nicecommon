@@ -66,15 +66,4 @@ public class GlobalExceptionAdvice implements Ordered {
     public ResultWrapper<?> handleSystemException(SystemException e) {
         return ResultWrapper.error().message("系统异常，请联系客服");
     }
-
-    @ExceptionHandler(AuthenticationException.class)
-    public ResultWrapper<?> handleForbiddenException(AuthenticationException e) {
-
-        // 若某个自定义异常有@ResponseStatus注解，就继续抛出，这样状态码就能正常响应
-        if (AnnotationUtils.findAnnotation(e.getClass(), ResponseStatus.class) != null) {
-            throw e;
-        }
-
-        return ResultWrapper.error().message("无权访问，请联系客服");
-    }
 }
