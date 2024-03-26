@@ -9,7 +9,7 @@ public enum ResultCode {
     AUTHENTICATION_ABOUT_TO_EXPIRE(1005, "认证即将过期"),
 
     BUSINESS_FAIL(2000, "业务异常"),
-    SYSTEM_FAIL(2001, "业务异常"),
+    SYSTEM_FAIL(2005, "系统异常"),
     ;
 
     private final int code;
