@@ -31,26 +31,30 @@ public class CommonEntity {
     /**
      * 创建人ID
      */
+    @TableField(fill = FieldFill.INSERT)
     private String createId;
 
     /**
      * 创建人名字
      */
+    @TableField(fill = FieldFill.INSERT)
     private String createName;
 
     /**
      * 更新人ID
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateId;
 
     /**
      * 更新人名字
      */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updateName;
 
     /**
      * 删除标记。0：未删除；其他：已删除
      */
-    @TableLogic("id")
+    @TableLogic(delval = "id")
     private Long deleteFlag;
 }
