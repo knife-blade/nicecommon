@@ -4,12 +4,12 @@ import lombok.Getter;
 
 @Getter
 public enum ResultCode {
-    SUCCESS(1000, "访问成功"),
+    SUCCESS(6000, "访问成功"),
 
-    AUTHENTICATION_ABOUT_TO_EXPIRE(1005, "认证即将过期"),
+    AUTHENTICATION_ABOUT_TO_EXPIRE(6005, "认证即将过期"),
 
-    BUSINESS_FAIL(2000, "业务异常"),
-    SYSTEM_FAIL(2005, "系统异常"),
+    BUSINESS_FAIL(7000, "业务异常"),
+    SYSTEM_FAIL(7005, "系统异常"),
     ;
 
     private final int code;
