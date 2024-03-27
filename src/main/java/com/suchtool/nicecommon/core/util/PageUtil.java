@@ -8,8 +8,8 @@ import com.suchtool.nicetool.util.base.BeanUtil;
 import java.util.List;
 
 public class PageUtil {
-    public static Page<?> toPage(PageBO pageBO) {
-        Page<?> page = new Page<>();
+    public static <T> Page<T> toPage(PageBO pageBO) {
+        Page<T> page = new Page<>();
         page.setSize(pageBO.getPageSize());
         page.setCurrent(pageBO.getCurrentPage());
         return page;
