@@ -11,7 +11,7 @@ public class PageUtil {
     public static <T> Page<T> toPage(PageBO pageBO) {
         Page<T> page = new Page<>();
         page.setSize(pageBO.getPageSize());
-        page.setCurrent(pageBO.getCurrentPage());
+        page.setCurrent(pageBO.getCurrentPageIndex());
         return page;
     }
 

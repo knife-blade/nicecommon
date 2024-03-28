@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class PageBO {
     @ApiModelProperty("当前页序号")
-    private Long currentPage = 0L;
+    private Long currentPageIndex = 0L;
 
     @ApiModelProperty("每页个数")
     private Long pageSize = 10L;
