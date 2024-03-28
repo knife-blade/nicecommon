@@ -48,8 +48,8 @@
 
         <dependency>
             <groupId>com.suchtool</groupId>
-            <artifactId>nicetool-spring-boot-starter</artifactId>
-            <version>1.0.5</version>
+            <artifactId>nicelog-spring-boot-starter</artifactId>
+            <version>1.2.3</version>
         </dependency>
 
         <dependency>
