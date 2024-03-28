@@ -6,8 +6,6 @@ import lombok.Getter;
 public enum ResultCode {
     SUCCESS(6000, "访问成功"),
 
-    AUTHENTICATION_ABOUT_TO_EXPIRE(6005, "认证即将过期"),
-
     BUSINESS_FAIL(7000, "业务异常"),
     SYSTEM_FAIL(7005, "系统异常"),
     ;
