@@ -17,7 +17,7 @@ public class PageUtil {
 
     public static <T> PageVO<T> toPageVO(Page<T> page) {
         PageVO<T> pageVO = new PageVO<T>();
-        pageVO.setCurrentPage(page.getCurrent());
+        pageVO.setCurrentPageIndex(page.getCurrent());
         pageVO.setPageSize(page.getSize());
         pageVO.setTotalSize(page.getTotal());
 
@@ -28,7 +28,7 @@ public class PageUtil {
 
     public static <T, R> PageVO<R> toPageVO(Page<T> page, Class<R> rClass) {
         PageVO<R> pageVO = new PageVO<R>();
-        pageVO.setCurrentPage(page.getCurrent());
+        pageVO.setCurrentPageIndex(page.getCurrent());
         pageVO.setPageSize(page.getSize());
         pageVO.setTotalSize(page.getTotal());
 

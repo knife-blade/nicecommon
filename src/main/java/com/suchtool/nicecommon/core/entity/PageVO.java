@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 public class PageVO<T> {
     @ApiModelProperty("当前页序号")
-    private Long currentPage = 0L;
+    private Long currentPageIndex = 0L;
 
     @ApiModelProperty("每页个数")
     private Long pageSize = 10L;
