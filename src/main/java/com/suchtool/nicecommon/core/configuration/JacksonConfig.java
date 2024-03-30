@@ -2,6 +2,7 @@ package com.suchtool.nicecommon.core.configuration;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
@@ -61,6 +62,9 @@ public class JacksonConfig {
 
 		// 全局配置时间的序列化
 		objectMapper.registerModule(configTimeModule());
+
+		// 将不匹配的enum转为null，防止报错
+		objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
 
 		// 重新设置为生效，避免被其他地方覆盖
 		objectMapper.enable(MapperFeature.IGNORE_DUPLICATE_MODULE_REGISTRATIONS);

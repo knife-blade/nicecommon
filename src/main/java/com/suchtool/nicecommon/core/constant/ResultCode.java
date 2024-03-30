@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum ResultCode {
-    SUCCESS(6000, "访问成功"),
+    SUCCESS(10000, "访问成功"),
 
-    BUSINESS_FAIL(7000, "业务异常"),
-    SYSTEM_FAIL(7005, "系统异常"),
+    BUSINESS_FAIL(20001, "业务异常"),
+    SYSTEM_FAIL(20005, "系统异常"),
     ;
 
     private final int code;
