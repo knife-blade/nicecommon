@@ -18,3 +18,4 @@ public enum ResultCode {
         this.description = description;
     }
 }
+
