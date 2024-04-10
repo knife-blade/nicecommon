@@ -19,6 +19,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import com.suchtool.nicecommon.core.advice.GlobalExceptionAdvice;
 import com.suchtool.nicecommon.core.advice.GlobalResponseBodyAdvice;
 import com.suchtool.nicecommon.core.property.NiceCommonAdviceProperty;
+import com.suchtool.nicetool.util.lib.datetime.constant.DateTimeFormatConstant;
 import lombok.SneakyThrows;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jackson.JacksonProperties;
@@ -26,6 +27,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.math.BigDecimal;
@@ -37,7 +39,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-@Configuration
+@Configuration(value = "com.suchtool.nicecommon.niceCommonConfiguration", proxyBeanMethods = false)
 public class NiceCommonConfiguration {
     @Bean("com.suchtool.nicecommon.niceCommonAdviceProperty")
     @ConfigurationProperties(prefix = "suchtool.nicecommon.advice")
@@ -57,7 +59,7 @@ public class NiceCommonConfiguration {
         return new GlobalResponseBodyAdvice(property.getGlobalResponseAdvice());
     }
 
-    @Configuration(proxyBeanMethods = false)
+    @Configuration(value = "com.suchtool.nicecommon.jacksonConfig",proxyBeanMethods = false)
     @ConditionalOnProperty(name = "suchtool.nicecommon.enableJacksonConfig", havingValue = "true", matchIfMissing = true)
     protected static class JacksonConfig {
         @Primary
@@ -101,46 +103,81 @@ public class NiceCommonConfiguration {
         private JavaTimeModule configTimeModule() {
             JavaTimeModule javaTimeModule = new JavaTimeModule();
 
-            String localDateTimeFormat = "yyyy-MM-dd HH:mm:ss";
-            String localDateFormat = "yyyy-MM-dd";
-            String localTimeFormat = "HH:mm:ss";
-            String dateFormat = "yyyy-MM-dd HH:mm:ss";
-
             // 序列化
             javaTimeModule.addSerializer(
                     LocalDateTime.class,
-                    new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(localDateTimeFormat)));
+                    new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DateTimeFormatConstant.DATE_TIME_FORMAT_NORMAL)));
             javaTimeModule.addSerializer(
                     LocalDate.class,
-                    new LocalDateSerializer(DateTimeFormatter.ofPattern(localDateFormat)));
+                    new LocalDateSerializer(DateTimeFormatter.ofPattern(DateTimeFormatConstant.DATE_FORMAT_NORMAL)));
             javaTimeModule.addSerializer(
                     LocalTime.class,
-                    new LocalTimeSerializer(DateTimeFormatter.ofPattern(localTimeFormat)));
+                    new LocalTimeSerializer(DateTimeFormatter.ofPattern(DateTimeFormatConstant.TIME_FORMAT_NORMAL)));
             javaTimeModule.addSerializer(
                     Date.class,
-                    new DateSerializer(false, new SimpleDateFormat(dateFormat)));
+                    new DateSerializer(false, new SimpleDateFormat(DateTimeFormatConstant.DATE_TIME_FORMAT_NORMAL)));
 
             // 反序列化
             javaTimeModule.addDeserializer(
                     LocalDateTime.class,
-                    new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(localDateTimeFormat)));
+                    new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DateTimeFormatConstant.DATE_TIME_FORMAT_NORMAL)));
             javaTimeModule.addDeserializer(
                     LocalDate.class,
-                    new LocalDateDeserializer(DateTimeFormatter.ofPattern(localDateFormat)));
+                    new LocalDateDeserializer(DateTimeFormatter.ofPattern(DateTimeFormatConstant.DATE_FORMAT_NORMAL)));
             javaTimeModule.addDeserializer(
                     LocalTime.class,
-                    new LocalTimeDeserializer(DateTimeFormatter.ofPattern(localTimeFormat)));
+                    new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DateTimeFormatConstant.TIME_FORMAT_NORMAL)));
             javaTimeModule.addDeserializer(Date.class, new DateDeserializers.DateDeserializer() {
                 @SneakyThrows
                 @Override
                 public Date deserialize(JsonParser jsonParser, DeserializationContext dc) {
                     String text = jsonParser.getText().trim();
-                    SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+                    SimpleDateFormat sdf = new SimpleDateFormat(DateTimeFormatConstant.DATE_TIME_FORMAT_NORMAL);
                     return sdf.parse(text);
                 }
             });
 
             return javaTimeModule;
+        }
+    }
+
+    @Configuration(value = "com.suchtool.nicecommon.localDateTimeConfig",proxyBeanMethods = false)
+    @ConditionalOnProperty(name = "suchtool.nicecommon.enableFormDateTimeFormat", havingValue = "true", matchIfMissing = true)
+    public static class LocalDateTimeConfig {
+        @Bean("com.suchtool.nicecommon.localDateTimeConverter")
+        public Converter<String, LocalDateTime> localDateTimeConverter() {
+            return new LocalDateTimeConverter();
+        }
+
+        @Bean("com.suchtool.nicecommon.localDateConverter")
+        public Converter<String, LocalDate> localDateConverter() {
+            return new LocalDateConverter();
+        }
+
+        @Bean("com.suchtool.nicecommon.localTimeConverter")
+        public Converter<String, LocalTime> localTimeConverter() {
+            return new LocalTimeConverter();
+        }
+
+        public static class LocalDateTimeConverter implements Converter<String, LocalDateTime> {
+            @Override
+            public LocalDateTime convert(String text) {
+                return LocalDateTime.parse(text, DateTimeFormatter.ofPattern(DateTimeFormatConstant.DATE_TIME_FORMAT_NORMAL));
+            }
+        }
+
+        public static class LocalDateConverter implements Converter<String, LocalDate> {
+            @Override
+            public LocalDate convert(String text) {
+                return LocalDate.parse(text, DateTimeFormatter.ofPattern(DateTimeFormatConstant.DATE_FORMAT_NORMAL));
+            }
+        }
+
+        public static class LocalTimeConverter implements Converter<String, LocalTime> {
+            @Override
+            public LocalTime convert(String text) {
+                return LocalTime.parse(text, DateTimeFormatter.ofPattern(DateTimeFormatConstant.TIME_FORMAT_NORMAL));
+            }
         }
     }
 
