@@ -1,8 +1,8 @@
 package com.suchtool.nicecommon.core.advice;
 
 import com.suchtool.nicecommon.core.entity.ResultWrapper;
-import com.suchtool.nicecommon.core.exception.AuthenticationException;
 import com.suchtool.nicecommon.core.exception.BusinessException;
+import com.suchtool.nicecommon.core.exception.CustomCodeException;
 import com.suchtool.nicecommon.core.exception.SystemException;
 import com.suchtool.nicelog.util.log.NiceLogUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -95,5 +95,16 @@ public class GlobalExceptionAdvice implements Ordered {
                 .error();
 
         return ResultWrapper.error().message("系统异常，请联系客服");
+    }
+
+    @ExceptionHandler(CustomCodeException.class)
+    public ResultWrapper<?> handleCustomCodeException(CustomCodeException e) {
+        NiceLogUtil.createBuilder()
+                .mark("自定义编码异常")
+                .errorInfo(e.getMessage())
+                .throwable(e)
+                .error();
+
+        return ResultWrapper.success().code(e.getCode()).message(e.getMessage());
     }
 }
