@@ -5,6 +5,7 @@ import com.suchtool.nicecommon.core.exception.BusinessException;
 import com.suchtool.nicecommon.core.exception.CustomCodeException;
 import com.suchtool.nicecommon.core.exception.SystemException;
 import com.suchtool.nicelog.util.log.NiceLogUtil;
+import com.suchtool.nicetool.util.base.ThrowableUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.Ordered;
@@ -81,6 +82,9 @@ public class GlobalExceptionAdvice implements Ordered {
                 .mark("业务异常")
                 .errorInfo(e.getMessage())
                 .throwable(e)
+                .message(e.getCause() != null
+                        ? ThrowableUtil.stackTraceToString(e.getCause())
+                        : null)
                 .error();
 
         return ResultWrapper.error().message(e.getMessage());
