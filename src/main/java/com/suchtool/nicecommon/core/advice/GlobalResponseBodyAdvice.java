@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import java.lang.reflect.Executable;
+import java.lang.reflect.Method;
+
 @Slf4j
 @RestControllerAdvice
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ordered {
@@ -49,11 +52,21 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ord
                                   MediaType selectedContentType,
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
-
-
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
 
-        if (body instanceof String) {
+        if (ProcessIgnoreUrl.isInWrapperIgnoreUrl(request.getURI().getPath())) {
+            // 如果不需要处理，直接跳过
+            return body;
+        }
+
+        Executable executable = methodParameter.getExecutable();
+        if (!(executable instanceof Method)) {
+            return body;
+        }
+        Method method = (Method) executable;
+        Class<?> returnType = method.getReturnType();
+
+        if (returnType == String.class) {
             // 若返回值为String类型，需要包装为String类型返回。否则会报错
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -62,11 +75,8 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ord
             } catch (JsonProcessingException e) {
                 throw new RuntimeException("序列化String错误");
             }
-        } else if (body instanceof ResultWrapper) {
+        } else if (returnType == ResultWrapper.class) {
             // 如果已经封装过了，不再封装
-            return body;
-        } else if (ProcessIgnoreUrl.isInWrapperIgnoreUrl(request.getURI().getPath())) {
-            // 如果不需要处理，直接跳过
             return body;
         }
 
