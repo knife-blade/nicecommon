@@ -18,6 +18,7 @@ nicecommon：超好用的Java公共项目。
 2. SystemException：系统异常
 3. AuthenticationException：认证异常（比如：token不正确或缺少token）
 4. AuthorizationException：授权异常（比如：有token，但无权访问此URL）
+5. CustomCodeException：自定义错误码的异常
 
 ### 2.3全局处理
 1. 全局响应处理：包装为ResultWrapper
