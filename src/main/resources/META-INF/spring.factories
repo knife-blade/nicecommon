@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.suchtool.nicecommon.configuration.NiceCommonConfiguration
+  com.suchtool.nicecommon.configuration.NiceCommonConfiguration,\
+  com.suchtool.nicecommon.configuration.NiceCommonJacksonConfig,\
+  com.suchtool.nicecommon.configuration.NiceCommonLocalDateTimeFormConfig
