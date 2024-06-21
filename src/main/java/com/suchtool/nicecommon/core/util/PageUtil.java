@@ -1,6 +1,7 @@
 package com.suchtool.nicecommon.core.util;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.suchtool.nicecommon.core.entity.PageBO;
 import com.suchtool.nicecommon.core.entity.PageVO;
 import com.suchtool.nicetool.util.base.BeanUtil;
@@ -35,6 +36,21 @@ public class PageUtil {
         page.getRecords();
 
         List<R> copy = BeanUtil.copy(page.getRecords(), rClass);
+
+        pageVO.setDataList(copy);
+
+        return pageVO;
+    }
+
+    public static <T, R> PageVO<R> toPageVODeepCopy(Page<T> page, TypeReference<List<R>> typeReference) {
+        PageVO<R> pageVO = new PageVO<R>();
+        pageVO.setCurrentPageIndex(page.getCurrent());
+        pageVO.setPageSize(page.getSize());
+        pageVO.setTotalSize(page.getTotal());
+
+        page.getRecords();
+
+        List<R> copy = BeanUtil.deepCopy(page.getRecords(), typeReference);
 
         pageVO.setDataList(copy);
 
