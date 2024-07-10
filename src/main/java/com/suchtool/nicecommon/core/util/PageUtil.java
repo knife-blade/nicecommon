@@ -42,7 +42,7 @@ public class PageUtil {
         return pageVO;
     }
 
-    public static <T, R> PageVO<R> toPageVODeepCopy(Page<T> page, TypeReference<List<R>> typeReference) {
+    public static <T, R> PageVO<R> toPageVODeepCopyByJson(Page<T> page, TypeReference<List<R>> typeReference) {
         PageVO<R> pageVO = new PageVO<R>();
         pageVO.setCurrentPageIndex(page.getCurrent());
         pageVO.setPageSize(page.getSize());
@@ -50,7 +50,7 @@ public class PageUtil {
 
         page.getRecords();
 
-        List<R> copy = BeanUtil.deepCopy(page.getRecords(), typeReference);
+        List<R> copy = BeanUtil.deepCopyByJson(page.getRecords(), typeReference);
 
         pageVO.setDataList(copy);
 
