@@ -41,8 +41,8 @@ nicecommon：超好用的Java公共项目。
 
 ```
 ## 配置
-| 配置  | 描述  | 默认值  |
-| :------------ | :------------ | :------------ |
-| suchtool.nicecommon.enableGlobalExceptionAdvice  | 启用全局异常处理  | true  |
-| suchtool.nicecommon.enableGlobalResponseBodyAdvice  | 启用全局响应处理  | true  |
-| suchtool.nicecommon.enableJacksonConfig  |  启用Jackson配置 | true  |
+| 配置                                                     | 描述  | 默认值  |
+|:-------------------------------------------------------| :------------ | :------------ |
+| suchtool.nicecommon.enable-global-exception-advice     | 启用全局异常处理  | true  |
+| suchtool.nicecommon.enable-global-response-body-advice | 启用全局响应处理  | true  |
+| suchtool.nicecommon.enable-jackson-config              |  启用Jackson配置 | true  |
