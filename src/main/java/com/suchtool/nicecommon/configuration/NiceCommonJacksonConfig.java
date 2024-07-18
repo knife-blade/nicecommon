@@ -1,10 +1,7 @@
 package com.suchtool.nicecommon.configuration;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.DateSerializer;
@@ -54,6 +51,12 @@ public class NiceCommonJacksonConfig {
 
         // 将不匹配的enum转为null，防止报错
         objectMapper.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
+
+        // 反序列化时，如果json串中存在一些key，但在Java对象中没有，不要报错
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        // 序列化时，如果Java对象里没有任何属性，不要报错
+        objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
 
         // 重新设置为生效，避免被其他地方覆盖
         objectMapper.enable(MapperFeature.IGNORE_DUPLICATE_MODULE_REGISTRATIONS);
