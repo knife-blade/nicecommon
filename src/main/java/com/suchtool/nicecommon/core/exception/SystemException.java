@@ -8,6 +8,10 @@ public class SystemException extends RuntimeException{
         super();
     }
 
+    public SystemException(Throwable cause) {
+        super(cause);
+    }
+
     public SystemException(String message) {
         super(message);
     }
