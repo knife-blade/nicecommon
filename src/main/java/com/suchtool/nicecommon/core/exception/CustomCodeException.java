@@ -22,6 +22,10 @@ public class CustomCodeException extends RuntimeException{
         this.code = code;
     }
 
+    public CustomCodeException(Throwable cause) {
+        super(cause);
+    }
+
     public CustomCodeException(String message) {
         super(message);
     }
