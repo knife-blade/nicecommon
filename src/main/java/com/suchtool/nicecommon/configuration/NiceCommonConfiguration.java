@@ -50,7 +50,9 @@ public class NiceCommonConfiguration {
     @Bean("com.suchtool.nicecommon.globalExceptionAdvice")
     @ConditionalOnProperty(name = "suchtool.nicecommon.advice.enableGlobalExceptionAdvice", havingValue = "true", matchIfMissing = true)
     public GlobalExceptionAdvice globalExceptionAdvice(NiceCommonAdviceProperty property) {
-        return new GlobalExceptionAdvice(property.getGlobalExceptionAdvice());
+        return new GlobalExceptionAdvice(
+                property.getGlobalExceptionAdvice(),
+                property.getEnableGlobalExceptionAdviceLog());
     }
 
     @Bean("com.suchtool.nicecommon.globalResponseBodyAdvice")
