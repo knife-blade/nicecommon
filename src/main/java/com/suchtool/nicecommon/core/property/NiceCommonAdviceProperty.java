@@ -10,6 +10,11 @@ public class NiceCommonAdviceProperty {
     private Boolean enableGlobalExceptionAdvice = true;
 
     /**
+     * 启用全局异常日志打印
+     */
+    private Boolean enableGlobalExceptionAdviceLog = true;
+
+    /**
      * 启用全局响应处理
      */
     private Boolean enableGlobalResponseAdvice = true;
