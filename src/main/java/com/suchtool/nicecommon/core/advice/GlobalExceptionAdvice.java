@@ -93,9 +93,6 @@ public class GlobalExceptionAdvice implements Ordered {
                     .mark("业务异常")
                     .errorInfo(e.getMessage())
                     .throwable(e)
-                    .message(e.getCause() != null
-                            ? ThrowableUtil.stackTraceToString(e.getCause())
-                            : null)
                     .error();
         }
 
