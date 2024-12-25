@@ -1,6 +1,9 @@
 package com.suchtool.nicecommon.core.constant;
 
+import com.suchtool.nicetool.util.spring.ApplicationContextHolder;
+import com.suchtool.nicetool.util.web.http.url.HttpUrlUtil;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +26,14 @@ public interface ProcessIgnoreUrl {
     static boolean isInWrapperIgnoreUrl(String uri) {
         AntPathMatcher pathMatcher = new AntPathMatcher();
         for (String s : ProcessIgnoreUrl.ALL) {
-            if (pathMatcher.match(s, uri)) {
+            String path = s;
+            String contextPath = ApplicationContextHolder.getContext().getEnvironment()
+                    .getProperty("server.servlet.context-path", "");
+            if (StringUtils.hasText(contextPath)) {
+                List<String> pathList = Arrays.asList(contextPath, path);
+                path = "/" + HttpUrlUtil.joinUrl(pathList, false);
+            }
+            if (pathMatcher.match(path, uri)) {
                 return true;
             }
         }
