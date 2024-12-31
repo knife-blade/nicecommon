@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suchtool.nicecommon.core.constant.ProcessIgnoreUrl;
 import com.suchtool.nicecommon.core.entity.ResultWrapper;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.Ordered;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
@@ -23,6 +25,9 @@ import java.lang.reflect.Method;
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ordered {
     private final int order;
 
+    @Value("${server.servlet.context-path:}")
+    private String contextPath;
+
     public GlobalResponseBodyAdvice(int order) {
         this.order = order;
     }
@@ -31,7 +36,6 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ord
     public int getOrder() {
         return order;
     }
-
 
     /**
      * 返回值的含义：是否要处理
@@ -51,7 +55,11 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ord
                                   MediaType selectedContentType,
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
-        if (ProcessIgnoreUrl.isInWrapperIgnoreUrl(request.getURI().getPath())) {
+        String uri = request.getURI().getPath();
+        if (StringUtils.hasText(contextPath)) {
+            uri = uri.substring(contextPath.length());
+        }
+        if (ProcessIgnoreUrl.isInWrapperIgnoreUrl(uri)) {
             // 如果不需要处理，直接跳过
             return body;
         }
