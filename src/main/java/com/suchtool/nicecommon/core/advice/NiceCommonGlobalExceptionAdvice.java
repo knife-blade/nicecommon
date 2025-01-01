@@ -4,9 +4,8 @@ import com.suchtool.nicecommon.core.entity.ResultWrapper;
 import com.suchtool.nicecommon.core.exception.BusinessException;
 import com.suchtool.nicecommon.core.exception.CustomCodeException;
 import com.suchtool.nicecommon.core.exception.SystemException;
-import com.suchtool.nicecommon.core.property.NiceCommonAdviceProperty;
+import com.suchtool.nicecommon.core.property.NiceCommonGlobalExceptionProperty;
 import com.suchtool.nicelog.util.log.NiceLogUtil;
-import com.suchtool.nicetool.util.base.ThrowableUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.core.Ordered;
@@ -20,14 +19,14 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionAdvice implements Ordered {
+public class NiceCommonGlobalExceptionAdvice implements Ordered {
     private final int order;
 
     private final Boolean enableGlobalExceptionAdviceLog;
 
-    public GlobalExceptionAdvice(int order, Boolean enableGlobalExceptionAdviceLog) {
-        this.order = order;
-        this.enableGlobalExceptionAdviceLog = enableGlobalExceptionAdviceLog;
+    public NiceCommonGlobalExceptionAdvice(NiceCommonGlobalExceptionProperty property) {
+        this.order = property.getAdviceOrder();
+        this.enableGlobalExceptionAdviceLog = property.getEnableLog();
     }
 
     @Override

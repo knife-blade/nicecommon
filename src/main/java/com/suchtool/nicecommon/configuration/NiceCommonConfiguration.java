@@ -1,64 +1,82 @@
 package com.suchtool.nicecommon.configuration;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.ser.std.DateSerializer;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
-import com.suchtool.nicecommon.core.advice.GlobalExceptionAdvice;
-import com.suchtool.nicecommon.core.advice.GlobalResponseBodyAdvice;
-import com.suchtool.nicecommon.core.property.NiceCommonAdviceProperty;
-import com.suchtool.nicetool.util.lib.datetime.constant.DateTimeFormatConstant;
-import lombok.SneakyThrows;
+import com.suchtool.nicecommon.core.advice.NiceCommonGlobalExceptionAdvice;
+import com.suchtool.nicecommon.core.advice.NiceCommonGlobalResponseBodyAdvice;
+import com.suchtool.nicecommon.core.property.NiceCommonGlobalExceptionProperty;
+import com.suchtool.nicecommon.core.property.NiceCommonGlobalFormatProperty;
+import com.suchtool.nicecommon.core.property.NiceCommonGlobalResponseProperty;
+import com.suchtool.nicecommon.core.property.NiceCommonJacksonProperty;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.autoconfigure.jackson.JacksonProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.time.ZoneId;
+import java.util.TimeZone;
 
 @Configuration(value = "com.suchtool.nicecommon.niceCommonConfiguration", proxyBeanMethods = false)
 public class NiceCommonConfiguration {
-    @Bean("com.suchtool.nicecommon.niceCommonAdviceProperty")
-    @ConfigurationProperties(prefix = "suchtool.nicecommon.advice")
-    public NiceCommonAdviceProperty niceCommonAdviceProperty() {
-        return new NiceCommonAdviceProperty();
+    @Bean("com.suchtool.nicecommon.niceCommonGlobalExceptionProperty")
+    @ConfigurationProperties(prefix = "suchtool.nicecommon.global-exception")
+    public NiceCommonGlobalExceptionProperty niceCommonGlobalExceptionProperty() {
+        return new NiceCommonGlobalExceptionProperty();
     }
 
-    @Bean("com.suchtool.nicecommon.globalExceptionAdvice")
-    @ConditionalOnProperty(name = "suchtool.nicecommon.advice.enableGlobalExceptionAdvice", havingValue = "true", matchIfMissing = true)
-    public GlobalExceptionAdvice globalExceptionAdvice(NiceCommonAdviceProperty property) {
-        return new GlobalExceptionAdvice(
-                property.getGlobalExceptionAdvice(),
-                property.getEnableGlobalExceptionAdviceLog());
+    @Bean("com.suchtool.nicecommon.niceCommonGlobalResponseProperty")
+    @ConfigurationProperties(prefix = "suchtool.nicecommon.global-response")
+    public NiceCommonGlobalResponseProperty niceCommonGlobalResponseProperty() {
+        return new NiceCommonGlobalResponseProperty();
     }
 
-    @Bean("com.suchtool.nicecommon.globalResponseBodyAdvice")
-    @ConditionalOnProperty(name = "suchtool.nicecommon.advice.enableGlobalResponseBodyAdvice", havingValue = "true", matchIfMissing = true)
-    public GlobalResponseBodyAdvice globalResponseBodyAdvice(NiceCommonAdviceProperty property) {
-        return new GlobalResponseBodyAdvice(property.getGlobalResponseAdvice());
+    @Bean("com.suchtool.nicecommon.NiceCommonGlobalFormatProperty")
+    @ConfigurationProperties(prefix = "suchtool.nicecommon.global-format")
+    public NiceCommonGlobalFormatProperty niceCommonGlobalFormatProperty() {
+        return new NiceCommonGlobalFormatProperty();
+    }
+
+    @Bean("com.suchtool.nicecommon.NiceCommonJacksonProperty")
+    @ConfigurationProperties(prefix = "suchtool.nicecommon.jackson")
+    public NiceCommonJacksonProperty NiceCommonJacksonProperty() {
+        return new NiceCommonJacksonProperty();
+    }
+
+    @Bean("com.suchtool.nicecommon.niceCommonGlobalExceptionAdvice")
+    @ConditionalOnProperty(name = "suchtool.nicecommon.global-exception.enable", havingValue = "true", matchIfMissing = true)
+    public NiceCommonGlobalExceptionAdvice niceCommonGlobalExceptionAdvice(NiceCommonGlobalExceptionProperty niceCommonGlobalExceptionProperty) {
+        return new NiceCommonGlobalExceptionAdvice(niceCommonGlobalExceptionProperty);
+    }
+
+    @Bean("com.suchtool.nicecommon.niceCommonGlobalResponseBodyAdvice")
+    @ConditionalOnProperty(name = "suchtool.nicecommon.global-response.enable", havingValue = "true", matchIfMissing = true)
+    public NiceCommonGlobalResponseBodyAdvice niceCommonGlobalResponseBodyAdvice(NiceCommonGlobalResponseProperty niceCommonGlobalResponseProperty) {
+        return new NiceCommonGlobalResponseBodyAdvice(niceCommonGlobalResponseProperty);
+    }
+
+    @Bean("com.suchtool.nicecommon.niceCommonJacksonConfig")
+    @ConditionalOnProperty(name = "suchtool.nicecommon.jackson.enable-config", havingValue = "true", matchIfMissing = true)
+    public NiceCommonJacksonConfig niceCommonJacksonConfig(NiceCommonGlobalFormatProperty globalFormatProperty,
+                                                           NiceCommonJacksonProperty jacksonProperty) {
+        return new NiceCommonJacksonConfig(jacksonProperty, globalFormatProperty);
+    }
+
+    @Bean("com.suchtool.nicecommon.niceCommonDateTimeFormPrettyConfig")
+    @ConditionalOnExpression("'${suchtool.nicecommon.global-format.date-time-format-type}' == 'pretty'")
+    public NiceCommonDateTimeFormPrettyConfig niceCommonDateTimeFormPrettyConfig() {
+        return new NiceCommonDateTimeFormPrettyConfig();
+    }
+
+    @Bean("com.suchtool.nicecommon.niceCommonDateTimeFormTimestampConfig")
+    @ConditionalOnExpression("'${suchtool.nicecommon.global-format.date-time-format-type}' == 'timestamp'")
+    public NiceCommonDateTimeFormTimestampConfig niceCommonDateTimeFormTimestampConfig(
+            @Value("${spring.jackson.time-zone:#{null}}")TimeZone timeZone) {
+        ZoneId zoneId = ZoneId.systemDefault();
+        if (timeZone != null) {
+            zoneId = timeZone.toZoneId();
+        }
+        NiceCommonDateTimeFormTimestampConfig.setZoneId(zoneId);
+        return new NiceCommonDateTimeFormTimestampConfig();
     }
 
 }

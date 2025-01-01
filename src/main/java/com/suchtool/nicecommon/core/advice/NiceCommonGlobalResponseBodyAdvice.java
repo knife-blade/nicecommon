@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.suchtool.nicecommon.core.constant.ProcessIgnoreUrl;
 import com.suchtool.nicecommon.core.entity.ResultWrapper;
+import com.suchtool.nicecommon.core.property.NiceCommonGlobalResponseProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
@@ -22,14 +23,14 @@ import java.lang.reflect.Method;
 
 @Slf4j
 @ControllerAdvice
-public class GlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ordered {
+public class NiceCommonGlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ordered {
     private final int order;
 
     @Value("${server.servlet.context-path:}")
     private String contextPath;
 
-    public GlobalResponseBodyAdvice(int order) {
-        this.order = order;
+    public NiceCommonGlobalResponseBodyAdvice(NiceCommonGlobalResponseProperty property) {
+        this.order = property.getAdviceOrder();
     }
 
     @Override
