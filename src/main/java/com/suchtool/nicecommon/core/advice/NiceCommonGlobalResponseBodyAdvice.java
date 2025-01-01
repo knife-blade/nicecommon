@@ -13,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,18 +26,18 @@ import java.lang.reflect.Method;
 @Slf4j
 @ControllerAdvice
 public class NiceCommonGlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ordered {
-    private final int order;
+    private final NiceCommonGlobalResponseProperty globalResponseProperty;
 
     @Value("${server.servlet.context-path:}")
     private String contextPath;
 
     public NiceCommonGlobalResponseBodyAdvice(NiceCommonGlobalResponseProperty property) {
-        this.order = property.getAdviceOrder();
+        this.globalResponseProperty = property;
     }
 
     @Override
     public int getOrder() {
-        return order;
+        return globalResponseProperty.getAdviceOrder();
     }
 
     /**
@@ -57,11 +59,9 @@ public class NiceCommonGlobalResponseBodyAdvice implements ResponseBodyAdvice<Ob
                                   Class<? extends HttpMessageConverter<?>> selectedConverterType,
                                   ServerHttpRequest request, ServerHttpResponse response) {
         String uri = request.getURI().getPath();
-        if (StringUtils.hasText(contextPath)) {
-            uri = uri.substring(contextPath.length());
-        }
-        if (ProcessIgnoreUrl.isInWrapperIgnoreUrl(uri)) {
-            // 如果不需要处理，直接跳过
+        // 如果不需要处理，直接跳过
+
+        if (isIgnoreUrl(uri)) {
             return body;
         }
 
@@ -86,5 +86,22 @@ public class NiceCommonGlobalResponseBodyAdvice implements ResponseBodyAdvice<Ob
             return body;
         }
         return ResultWrapper.success().data(body);
+    }
+
+    private boolean isIgnoreUrl(String uri) {
+        if (CollectionUtils.isEmpty(globalResponseProperty.getIgnoreUrls())) {
+            if (StringUtils.hasText(contextPath)) {
+                uri = uri.substring(contextPath.length());
+            }
+            return ProcessIgnoreUrl.isInWrapperIgnoreUrl(uri);
+        } else {
+            AntPathMatcher pathMatcher = new AntPathMatcher();
+            for (String path : globalResponseProperty.getIgnoreUrls()) {
+                if (pathMatcher.match(path, uri)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
