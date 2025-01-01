@@ -52,7 +52,8 @@ suchtool:
     global-response:
       enable: true  # 启用全局响应处理。默认值: true
       advice-order: true  # 全局响应处理的切面顺序。默认值: true
-      # 全局异常忽略处理的URL。默认值: swagger相关url
+      # 全局响应忽略处理的URL，用AntPathMatcher实现，支持通配符，例如：/webjars/**。
+      # 默认值: swagger相关url
       ignore-urls:
         - /test/test1
         - /test/test2
