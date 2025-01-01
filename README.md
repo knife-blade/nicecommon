@@ -22,8 +22,8 @@ nicecommon：超好用的Java公共项目。
 
 ### 2.3全局处理
 1. 全局响应处理：包装为ResultWrapper
-2. 全局异常处理：包装为ResultWrapper
-3. 全局格式化：LocalDateTime、LocalDate、LocalTime使用常规格式；BigDecimal、Long使用字符串；
+2. 全局异常处理：处理异常、打印异常日志、包装为报错的ResultWrapper
+3. 全局格式化：LocalDateTime、LocalDate、LocalTime的格式化；BigDecimal、Long使用字符串；
 4. 全局Feign处理：自动将ResultWrapper里的数据取出
 
 ### 2.4工具类
@@ -41,9 +41,22 @@ nicecommon：超好用的Java公共项目。
 
 ```
 ## 配置
-| 配置                                                     | 描述  | 默认值  |
-|:-------------------------------------------------------| :------------ | :------------ |
-| suchtool.nicecommon.enable-global-exception-advice     | 启用全局异常处理 | true  |
-| suchtool.nicecommon.enable-global-exception-advice-log | 启用全局异常处理日志 | true  |
-| suchtool.nicecommon.enable-global-response-body-advice | 启用全局响应处理 | true  |
-| suchtool.nicecommon.enable-jackson-config              | 启用Jackson配置 | true  |
+yml配置如下：
+```yaml
+suchtool:
+  nicecommon:
+    global-exception:
+      enable: true  # 启用全局异常处理。默认值: true
+      enable-log: true  # 启用全局异常处理的日志打印。默认值: true
+      advice-order: 20000  # 全局异常处理的切面顺序。默认值: 20000
+    global-response:
+      enable: true  # 启用全局响应处理。默认值: true
+      advice-order: true  # 全局响应处理的切面顺序。默认值: true
+      # 全局异常忽略处理的URL。默认值: swagger相关url
+      ignore-urls:
+        - /test/test1
+        - /test/test2
+    global-format:
+      enable-number-to-string: true  # 全局格式处理启用数字转字符串。默认值: true
+      date-time-format-type: pretty  # 全局格式处理的日期时间格式。取值：pretty（年月日 时分秒）、timestamp（时间戳）、none。默认值: pretty
+```
