@@ -1,4 +1,4 @@
-package com.suchtool.nicecommon.configuration;
+package com.suchtool.nicecommon.configuration.inner;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

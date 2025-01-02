@@ -1,4 +1,4 @@
-package com.suchtool.nicecommon.configuration;
+package com.suchtool.nicecommon.configuration.inner;
 
 import com.suchtool.nicetool.util.lib.datetime.constant.DateTimeFormatConstant;
 import org.springframework.context.annotation.Bean;
