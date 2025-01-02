@@ -89,19 +89,22 @@ public class NiceCommonGlobalResponseBodyAdvice implements ResponseBodyAdvice<Ob
     }
 
     private boolean isIgnoreUrl(String uri) {
-        if (CollectionUtils.isEmpty(globalResponseProperty.getIgnoreUrls())) {
-            if (StringUtils.hasText(contextPath)) {
-                uri = uri.substring(contextPath.length());
-            }
-            return ProcessIgnoreUrl.isInWrapperIgnoreUrl(uri);
-        } else {
-            AntPathMatcher pathMatcher = new AntPathMatcher();
-            for (String path : globalResponseProperty.getIgnoreUrls()) {
-                if (pathMatcher.match(path, uri)) {
-                    return true;
-                }
-            }
-            return false;
+        String thisUri = uri;
+        if (StringUtils.hasText(contextPath)) {
+            thisUri = uri.substring(contextPath.length());
         }
+
+        if (ProcessIgnoreUrl.isInWrapperIgnoreUrl(thisUri)) {
+            return true;
+        }
+
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+        for (String path : globalResponseProperty.getIgnoreUrl()) {
+            if (pathMatcher.match(path, thisUri)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
