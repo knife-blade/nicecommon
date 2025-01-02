@@ -22,5 +22,5 @@ public class NiceCommonGlobalResponseProperty {
     /**
      * 忽略处理的URL
      */
-    private List<String> ignoreUrls;
+    private List<String> ignoreUrl;
 }

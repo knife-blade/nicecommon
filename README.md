@@ -53,8 +53,8 @@ suchtool:
       enable: true  # 启用全局响应处理。默认值: true
       advice-order: true  # 全局响应处理的切面顺序。默认值: true
       # 全局响应忽略处理的URL，用AntPathMatcher实现，支持通配符，例如：/webjars/**。
-      # 默认值: swagger相关url
-      ignore-urls:
+      # 默认值: 空。（内部已自动跳过swagger相关url）
+      ignore-url:
         - /test/test1
         - /test/test2
     global-format:
