@@ -98,10 +98,12 @@ public class NiceCommonGlobalResponseBodyAdvice implements ResponseBodyAdvice<Ob
             return true;
         }
 
-        AntPathMatcher pathMatcher = new AntPathMatcher();
-        for (String path : globalResponseProperty.getIgnoreUrl()) {
-            if (pathMatcher.match(path, thisUri)) {
-                return true;
+        if (!CollectionUtils.isEmpty(globalResponseProperty.getIgnoreUrl())) {
+            AntPathMatcher pathMatcher = new AntPathMatcher();
+            for (String path : globalResponseProperty.getIgnoreUrl()) {
+                if (pathMatcher.match(path, thisUri)) {
+                    return true;
+                }
             }
         }
 
