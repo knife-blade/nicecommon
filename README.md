@@ -60,4 +60,7 @@ suchtool:
     global-format:
       enable-number-to-string: true  # 全局格式处理启用数字转字符串。默认值: true
       date-time-format-type: pretty  # 全局格式处理的日期时间格式。取值：pretty（年月日 时分秒）、timestamp（时间戳）、none。默认值: pretty
+    jackson:
+      enable-config: true # 启用jackson配置。默认值：true。若关闭，则global-format的json格式化也会失效
+      enable-avoid-fail: true #启用避免报错功能。默认值：true
 ```
