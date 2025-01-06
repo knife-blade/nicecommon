@@ -1,6 +1,7 @@
-package com.suchtool.nicecommon.configuration.inner;
+package com.suchtool.nicecommon.configuration;
 
 import com.suchtool.nicetool.util.lib.datetime.constant.DateTimeFormatConstant;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -10,8 +11,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+@ConditionalOnExpression("'${suchtool.nicecommon.global-format.date-time-format-type}' == 'pretty'")
 @Configuration(value = "com.suchtool.nicecommon.niceCommonDateTimeFormPrettyConfig", proxyBeanMethods = false)
-public class NiceCommonDateTimeFormPrettyConfig {
+public class NiceCommonDateTimeFormPrettyConfiguration {
     @Bean("com.suchtool.nicecommon.localDateTimeConverter")
     public Converter<String, LocalDateTime> localDateTimeConverter() {
         return new NiceCommonLocalDateTimeConverter();
