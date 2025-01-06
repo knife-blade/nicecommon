@@ -1,4 +1,4 @@
-package com.suchtool.nicecommon.configuration.inner;
+package com.suchtool.nicecommon.configuration;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
@@ -19,6 +19,7 @@ import com.suchtool.nicecommon.core.property.NiceCommonJacksonProperty;
 import com.suchtool.nicetool.util.lib.datetime.constant.DateTimeFormatConstant;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jackson.JacksonProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,8 +35,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.TimeZone;
 
+@ConditionalOnProperty(name = "suchtool.nicecommon.jackson.enable-config", havingValue = "true", matchIfMissing = true)
 @Configuration(value = "com.suchtool.nicecommon.niceCommonJacksonConfig", proxyBeanMethods = false)
-public class NiceCommonJacksonConfig {
+public class NiceCommonJacksonConfiguration {
     private NiceCommonJacksonProperty jacksonProperty;
 
     private NiceCommonGlobalFormatProperty globalFormatProperty;
@@ -43,8 +45,8 @@ public class NiceCommonJacksonConfig {
     @Value("${spring.jackson.time-zone:#{null}}")
     private TimeZone timeZone;
 
-    public NiceCommonJacksonConfig(NiceCommonJacksonProperty jacksonProperty,
-                                   NiceCommonGlobalFormatProperty globalFormatProperty) {
+    public NiceCommonJacksonConfiguration(NiceCommonJacksonProperty jacksonProperty,
+                                          NiceCommonGlobalFormatProperty globalFormatProperty) {
         this.jacksonProperty = jacksonProperty;
         this.globalFormatProperty = globalFormatProperty;
     }

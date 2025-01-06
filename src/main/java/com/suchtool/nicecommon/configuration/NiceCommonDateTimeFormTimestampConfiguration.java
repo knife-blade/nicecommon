@@ -1,5 +1,7 @@
-package com.suchtool.nicecommon.configuration.inner;
+package com.suchtool.nicecommon.configuration;
 
+import com.suchtool.nicetool.util.spring.ApplicationContextHolder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
@@ -10,14 +12,12 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.TimeZone;
 
-@Configuration
-public class NiceCommonDateTimeFormTimestampConfig {
-    private static ZoneId zoneId;
-
-    public static void setZoneId(ZoneId zoneId) {
-        NiceCommonDateTimeFormTimestampConfig.zoneId = zoneId;
-    }
+@ConditionalOnExpression("'${suchtool.nicecommon.global-format.date-time-format-type}' == 'timestamp'")
+@Configuration(value = "com.suchtool.nicecommon.niceCommonDateTimeFormTimestampConfig", proxyBeanMethods = false)
+public class NiceCommonDateTimeFormTimestampConfiguration {
+    private static ZoneId zoneId = readZoneId();
 
     @Bean
     public Converter<Long, LocalDateTime> timestampLongToLocalDateTimeConverter() {
@@ -69,5 +69,15 @@ public class NiceCommonDateTimeFormTimestampConfig {
             }
             return LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(timestamp)), zoneId).toLocalDate();
         }
+    }
+
+    private static ZoneId readZoneId() {
+        if (zoneId == null) {
+            TimeZone timeZone = ApplicationContextHolder.getContext().getEnvironment()
+                    .getProperty("spring.jackson.time-zone", TimeZone.class, null);
+            zoneId = timeZone.toZoneId();
+        }
+
+        return zoneId;
     }
 }
