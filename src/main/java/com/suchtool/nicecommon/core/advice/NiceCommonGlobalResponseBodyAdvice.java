@@ -2,8 +2,9 @@ package com.suchtool.nicecommon.core.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.suchtool.nicecommon.core.annotation.ResultWrapperIgnore;
 import com.suchtool.nicecommon.core.constant.ProcessIgnoreUrl;
-import com.suchtool.nicecommon.core.entity.ResultWrapper;
+import com.suchtool.nicecommon.core.model.ResultWrapper;
 import com.suchtool.nicecommon.core.property.NiceCommonGlobalResponseProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -71,6 +72,10 @@ public class NiceCommonGlobalResponseBodyAdvice implements ResponseBodyAdvice<Ob
         }
 
         Method method = (Method) executable;
+        if (method.isAnnotationPresent(ResultWrapperIgnore.class)) {
+            return body;
+        }
+
         Class<?> returnType = method.getReturnType();
         if (returnType == String.class) {
             // 若返回值为String类型，需要包装为String类型返回。否则会报错

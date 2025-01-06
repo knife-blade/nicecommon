@@ -1,4 +1,4 @@
-package com.suchtool.nicecommon.core.entity;
+package com.suchtool.nicecommon.core.model;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
