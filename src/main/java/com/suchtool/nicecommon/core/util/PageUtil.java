@@ -2,8 +2,8 @@ package com.suchtool.nicecommon.core.util;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.suchtool.nicecommon.core.entity.PageBO;
-import com.suchtool.nicecommon.core.entity.PageVO;
+import com.suchtool.nicecommon.core.model.PageBO;
+import com.suchtool.nicecommon.core.model.PageVO;
 import com.suchtool.nicetool.util.base.BeanUtil;
 
 import java.util.List;

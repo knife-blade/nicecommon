@@ -29,6 +29,9 @@ nicecommon：超好用的Java公共项目。
 ### 2.4工具类
 1. PageUtil：分页工具。功能：将PageBO转为MyBatis-Plus的分页对象；将MyBatis-Plus的分页结果转为PageVO等；
 
+### 2.5注解
+1.ResultWrapperIgnore：不自动包装ResultWrapper（用于接口方法）
+
 ## 快速使用
 
 ### 1.引入依赖

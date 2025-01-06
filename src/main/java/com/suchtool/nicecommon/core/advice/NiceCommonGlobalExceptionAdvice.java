@@ -1,6 +1,6 @@
 package com.suchtool.nicecommon.core.advice;
 
-import com.suchtool.nicecommon.core.entity.ResultWrapper;
+import com.suchtool.nicecommon.core.model.ResultWrapper;
 import com.suchtool.nicecommon.core.exception.BusinessException;
 import com.suchtool.nicecommon.core.exception.CustomCodeException;
 import com.suchtool.nicecommon.core.exception.SystemException;

@@ -1,4 +1,4 @@
-package com.suchtool.nicecommon.core.entity;
+package com.suchtool.nicecommon.core.model;
 
 import com.suchtool.nicecommon.core.constant.ResultCode;
 import lombok.Data;
