@@ -6,6 +6,7 @@ import com.suchtool.nicecommon.core.property.NiceCommonGlobalExceptionProperty;
 import com.suchtool.nicecommon.core.property.NiceCommonGlobalFormatProperty;
 import com.suchtool.nicecommon.core.property.NiceCommonGlobalResponseProperty;
 import com.suchtool.nicecommon.core.property.NiceCommonJacksonProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -56,4 +57,9 @@ public class NiceCommonConfiguration {
         return new NiceCommonDateTimeFormPrettyConfiguration();
     }
 
+    @Bean("com.suchtool.nicecommon.niceCommonMybatisFillUpdateSqlInterceptor")
+    @ConditionalOnBean()
+    public NiceCommonMyBatisFillSQLInterceptor niceCommonMybatisFillUpdateSqlInterceptor() {
+        return new NiceCommonMyBatisFillSQLInterceptor();
+    }
 }

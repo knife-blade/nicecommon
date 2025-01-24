@@ -32,6 +32,13 @@ nicecommon：超好用的Java公共项目。
 ### 2.5注解
 1.ResultWrapperIgnore：不自动包装ResultWrapper（用于接口方法）
 
+### 2.6 自动组件
+1.NiceCommonMybatisFillUpdateSQLProvider
+
+提供一个Bean实现此接口的provideParam方法，即可将字段自动填充到UPDATE语句中。
+provideParam返回值是一个Map，key：字段名，value：字段值。
+备注：此法可以解决某些情况下update_time等自动填充失效的问题。
+
 ## 快速使用
 
 ### 1.引入依赖
