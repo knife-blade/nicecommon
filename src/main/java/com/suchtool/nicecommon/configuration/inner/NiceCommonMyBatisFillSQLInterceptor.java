@@ -1,7 +1,7 @@
-package com.suchtool.nicecommon.configuration;
+package com.suchtool.nicecommon.configuration.inner;
 
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
-import com.suchtool.nicecommon.core.provider.NiceCommonMyBatisFillUpdateSQLProvider;
+import com.suchtool.nicecommon.core.provider.NiceCommonMyBatisFillSQLProvider;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.*;
 import org.apache.ibatis.plugin.*;
@@ -27,7 +27,7 @@ public class NiceCommonMyBatisFillSQLInterceptor implements Interceptor {
 	private static final Pattern SET_PATTERN = Pattern.compile("UPDATE\\s+[^\\s]+\\s+(SET)");
 
 	@Autowired
-	private NiceCommonMyBatisFillUpdateSQLProvider niceCommonMybatisFillUpdateSQLProvider;
+	private NiceCommonMyBatisFillSQLProvider niceCommonMybatisFillSQLProvider;
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
@@ -43,7 +43,7 @@ public class NiceCommonMyBatisFillSQLInterceptor implements Interceptor {
 			// 获取映射的参数
 			List<ParameterMapping> mappings = new ArrayList(boundSql.getParameterMappings());
 			// 假如参数中不包含要构造的参数，手动写入
-			Map<String, String> fieldsMap = niceCommonMybatisFillUpdateSQLProvider.provideParam();
+			Map<String, String> fieldsMap = niceCommonMybatisFillSQLProvider.provideUpdateParam();
 			for (Entry<String, String> map : fieldsMap.entrySet()) {
 				String fieldKey = map.getKey();
 

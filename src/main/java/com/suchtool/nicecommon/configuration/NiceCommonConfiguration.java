@@ -1,12 +1,16 @@
 package com.suchtool.nicecommon.configuration;
 
+import com.suchtool.nicecommon.configuration.inner.NiceCommonMyBatisFillSQLInterceptor;
 import com.suchtool.nicecommon.core.advice.NiceCommonGlobalExceptionAdvice;
 import com.suchtool.nicecommon.core.advice.NiceCommonGlobalResponseBodyAdvice;
 import com.suchtool.nicecommon.core.property.NiceCommonGlobalExceptionProperty;
 import com.suchtool.nicecommon.core.property.NiceCommonGlobalFormatProperty;
 import com.suchtool.nicecommon.core.property.NiceCommonGlobalResponseProperty;
 import com.suchtool.nicecommon.core.property.NiceCommonJacksonProperty;
+import com.suchtool.nicecommon.core.provider.NiceCommonMyBatisFillSQLProvider;
+import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -57,9 +61,12 @@ public class NiceCommonConfiguration {
         return new NiceCommonDateTimeFormPrettyConfiguration();
     }
 
-    @Bean("com.suchtool.nicecommon.niceCommonMybatisFillUpdateSqlInterceptor")
-    @ConditionalOnBean()
-    public NiceCommonMyBatisFillSQLInterceptor niceCommonMybatisFillUpdateSqlInterceptor() {
-        return new NiceCommonMyBatisFillSQLInterceptor();
+    @ConditionalOnClass(Interceptor.class)
+    @ConditionalOnBean(NiceCommonMyBatisFillSQLProvider.class)
+    protected static class KafkaAspectConfiguration {
+        @Bean("com.suchtool.nicecommon.niceCommonMybatisFillUpdateSqlInterceptor")
+        public NiceCommonMyBatisFillSQLInterceptor niceCommonMybatisFillUpdateSqlInterceptor() {
+            return new NiceCommonMyBatisFillSQLInterceptor();
+        }
     }
 }
