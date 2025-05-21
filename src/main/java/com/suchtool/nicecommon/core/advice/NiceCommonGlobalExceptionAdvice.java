@@ -1,9 +1,10 @@
 package com.suchtool.nicecommon.core.advice;
 
-import com.suchtool.nicecommon.core.model.ResultWrapper;
 import com.suchtool.nicecommon.core.exception.BusinessException;
 import com.suchtool.nicecommon.core.exception.CustomCodeException;
+import com.suchtool.nicecommon.core.exception.CustomResultException;
 import com.suchtool.nicecommon.core.exception.SystemException;
+import com.suchtool.nicecommon.core.model.ResultWrapper;
 import com.suchtool.nicecommon.core.property.NiceCommonGlobalExceptionProperty;
 import com.suchtool.nicelog.util.log.NiceLogUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -122,5 +123,18 @@ public class NiceCommonGlobalExceptionAdvice implements Ordered {
         }
 
         return ResultWrapper.success().code(e.getCode()).message(e.getMessage());
+    }
+
+    @ExceptionHandler(CustomResultException.class)
+    public ResultWrapper<?> handleCustomResultException(CustomResultException e) {
+        if (enableGlobalExceptionAdviceLog) {
+            NiceLogUtil.createBuilder()
+                    .mark("自定义返回值异常")
+                    .errorInfo(e.getMessage())
+                    .throwable(e)
+                    .error();
+        }
+
+        return e.getResult();
     }
 }
