@@ -11,7 +11,7 @@
 
     <groupId>com.suchtool</groupId>
     <artifactId>nicecommon-spring-boot-starter</artifactId>
-    <version>1.1.33</version>
+    <version>1.1.34</version>
 
     <packaging>jar</packaging>
     <name>nicecommon-spring-boot-starter</name>
@@ -92,37 +92,21 @@
     <!--用于发布-->
     <profiles>
         <profile>
-            <id>ossrh</id>
+            <id>central</id>
 
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
 
-            <distributionManagement>
-                <snapshotRepository>
-                    <!--此id必须与setting.xml的servers=>server=>id中指定的一致-->
-                    <id>ossrh</id>
-                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-                </snapshotRepository>
-                <repository>
-                    <id>ossrh</id>
-                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository>
-            </distributionManagement>
-
             <build>
                 <plugins>
-                    <!--发布到staging-->
                     <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.8</version>
+                        <groupId>org.sonatype.central</groupId>
+                        <artifactId>central-publishing-maven-plugin</artifactId>
+                        <version>0.7.0</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                            <!--自动release-->
-                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <publishingServerId>server-central</publishingServerId>
                         </configuration>
                     </plugin>
 
