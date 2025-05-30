@@ -11,7 +11,7 @@
 
     <groupId>com.suchtool</groupId>
     <artifactId>nicecommon-spring-boot-starter</artifactId>
-    <version>1.1.36</version>
+    <version>1.1.37</version>
 
     <packaging>jar</packaging>
     <name>nicecommon-spring-boot-starter</name>
@@ -107,6 +107,8 @@
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>server-central</publishingServerId>
+                            <autoPublish>true</autoPublish>
+                            <waitUntil>published</waitUntil>
                         </configuration>
                     </plugin>
 
