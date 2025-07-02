@@ -2,10 +2,10 @@ package com.suchtool.nicecommon.core.advice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.suchtool.nicecommon.core.annotation.ResultWrapperIgnore;
+import com.suchtool.nicecommon.core.annotation.ResponseWrapperIgnore;
 import com.suchtool.nicecommon.core.constant.ProcessIgnoreUrl;
 import com.suchtool.nicecommon.core.model.ResultWrapper;
-import com.suchtool.nicecommon.core.property.NiceCommonGlobalResponseProperty;
+import com.suchtool.nicecommon.core.property.NiceCommonGlobalResponseWrapperProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
@@ -26,19 +26,16 @@ import java.lang.reflect.Method;
 
 @Slf4j
 @ControllerAdvice
-public class NiceCommonGlobalResponseBodyAdvice implements ResponseBodyAdvice<Object>, Ordered {
-    private final NiceCommonGlobalResponseProperty globalResponseProperty;
+public class NiceCommonGlobalResponseWrapperAdvice implements ResponseBodyAdvice<Object>, Ordered {
+    private final NiceCommonGlobalResponseWrapperProperty globalResponseProperty;
 
-    @Value("${server.servlet.context-path:}")
-    private String contextPath;
-
-    public NiceCommonGlobalResponseBodyAdvice(NiceCommonGlobalResponseProperty property) {
+    public NiceCommonGlobalResponseWrapperAdvice(NiceCommonGlobalResponseWrapperProperty property) {
         this.globalResponseProperty = property;
     }
 
     @Override
     public int getOrder() {
-        return globalResponseProperty.getAdviceOrder();
+        return globalResponseProperty.getOrder();
     }
 
     /**
@@ -72,7 +69,12 @@ public class NiceCommonGlobalResponseBodyAdvice implements ResponseBodyAdvice<Ob
         }
 
         Method method = (Method) executable;
-        if (method.isAnnotationPresent(ResultWrapperIgnore.class)) {
+        if (method.isAnnotationPresent(ResponseWrapperIgnore.class)) {
+            return body;
+        }
+
+        Class<? extends Method> aClass = method.getClass();
+        if (aClass.isAnnotationPresent(ResponseWrapperIgnore.class)) {
             return body;
         }
 
@@ -95,9 +97,6 @@ public class NiceCommonGlobalResponseBodyAdvice implements ResponseBodyAdvice<Ob
 
     private boolean isIgnoreUrl(String uri) {
         String thisUri = uri;
-        if (StringUtils.hasText(contextPath)) {
-            thisUri = uri.substring(contextPath.length());
-        }
 
         if (ProcessIgnoreUrl.isInWrapperIgnoreUrl(thisUri)) {
             return true;
