@@ -2,11 +2,9 @@ package com.suchtool.nicecommon.configuration;
 
 import com.suchtool.nicecommon.configuration.inner.NiceCommonMyBatisFillSQLInterceptor;
 import com.suchtool.nicecommon.core.advice.NiceCommonGlobalExceptionAdvice;
-import com.suchtool.nicecommon.core.advice.NiceCommonGlobalResponseBodyAdvice;
-import com.suchtool.nicecommon.core.property.NiceCommonGlobalExceptionProperty;
-import com.suchtool.nicecommon.core.property.NiceCommonGlobalFormatProperty;
-import com.suchtool.nicecommon.core.property.NiceCommonGlobalResponseProperty;
-import com.suchtool.nicecommon.core.property.NiceCommonJacksonProperty;
+import com.suchtool.nicecommon.core.advice.NiceCommonGlobalResponseWrapperAdvice;
+import com.suchtool.nicecommon.core.aspect.NiceCommonGlobalResponseTraceIdAspect;
+import com.suchtool.nicecommon.core.property.*;
 import com.suchtool.nicecommon.core.provider.NiceCommonMyBatisFillSQLProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -25,10 +23,16 @@ public class NiceCommonConfiguration {
         return new NiceCommonGlobalExceptionProperty();
     }
 
-    @Bean("com.suchtool.nicecommon.niceCommonGlobalResponseProperty")
-    @ConfigurationProperties(prefix = "suchtool.nicecommon.global-response")
-    public NiceCommonGlobalResponseProperty niceCommonGlobalResponseProperty() {
-        return new NiceCommonGlobalResponseProperty();
+    @Bean("com.suchtool.nicecommon.niceCommonGlobalResponseWrapperProperty")
+    @ConfigurationProperties(prefix = "suchtool.nicecommon.global-response-wrapper")
+    public NiceCommonGlobalResponseWrapperProperty niceCommonGlobalResponseWrapperProperty() {
+        return new NiceCommonGlobalResponseWrapperProperty();
+    }
+
+    @Bean("com.suchtool.nicecommon.niceCommonGlobalResponseTraceIdProperty")
+    @ConfigurationProperties(prefix = "suchtool.nicecommon.global-response-trace-id")
+    public NiceCommonGlobalResponseTraceIdProperty niceCommonGlobalResponseTraceIdProperty() {
+        return new NiceCommonGlobalResponseTraceIdProperty();
     }
 
     @Bean("com.suchtool.nicecommon.NiceCommonGlobalFormatProperty")
@@ -49,10 +53,16 @@ public class NiceCommonConfiguration {
         return new NiceCommonGlobalExceptionAdvice(niceCommonGlobalExceptionProperty);
     }
 
+    @Bean("com.suchtool.nicecommon.niceCommonGlobalResponseWrapperAdvice")
+    @ConditionalOnProperty(name = "suchtool.nicecommon.global-response-wrapper.enable", havingValue = "true", matchIfMissing = true)
+    public NiceCommonGlobalResponseWrapperAdvice niceCommonGlobalResponseBodyAdvice(NiceCommonGlobalResponseWrapperProperty niceCommonGlobalResponseWrapperProperty) {
+        return new NiceCommonGlobalResponseWrapperAdvice(niceCommonGlobalResponseWrapperProperty);
+    }
+
     @Bean("com.suchtool.nicecommon.niceCommonGlobalResponseBodyAdvice")
-    @ConditionalOnProperty(name = "suchtool.nicecommon.global-response.enable", havingValue = "true", matchIfMissing = true)
-    public NiceCommonGlobalResponseBodyAdvice niceCommonGlobalResponseBodyAdvice(NiceCommonGlobalResponseProperty niceCommonGlobalResponseProperty) {
-        return new NiceCommonGlobalResponseBodyAdvice(niceCommonGlobalResponseProperty);
+    @ConditionalOnProperty(name = "suchtool.nicecommon.global-response-trace-id.enable", havingValue = "true", matchIfMissing = true)
+    public NiceCommonGlobalResponseTraceIdAspect niceCommonGlobalResponseBodyAdvice(NiceCommonGlobalResponseTraceIdProperty niceCommonGlobalResponseTraceIdProperty) {
+        return new NiceCommonGlobalResponseTraceIdAspect(niceCommonGlobalResponseTraceIdProperty);
     }
 
     @Bean("com.suchtool.nicecommon.niceCommonDateTimeFormPrettyConfig")

@@ -5,9 +5,9 @@ import java.lang.annotation.*;
 /**
  * 不自动包装返回值
  */
-@Target({ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ResultWrapperIgnore {
+public @interface ResponseWrapperIgnore {
 
 }
