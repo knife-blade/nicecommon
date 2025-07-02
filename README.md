@@ -56,12 +56,21 @@ yml配置如下：
 suchtool:
   nicecommon:
     global-exception:
-      enable: true  # 启用全局异常处理。默认值: true
+      enable: true  # 启用全局异常处理（Advice）。默认值: true
       enable-log: true  # 启用全局异常处理的日志打印。默认值: true
       advice-order: 20000  # 全局异常处理的切面顺序。默认值: 20000
-    global-response:
-      enable: true  # 启用全局响应处理。默认值: true
-      advice-order: true  # 全局响应处理的切面顺序。默认值: true
+    global-response-wrapper:
+      enable: true  # 启用全局响应处理（Advice）。默认值: true
+      order: 25000  # 全局响应处理的切面顺序。默认值: 25000
+      # 全局响应忽略处理的URL，用AntPathMatcher实现，支持通配符，例如：/webjars/**。
+      # 默认值: 空。（内部已自动跳过swagger相关url）
+      ignore-url:
+        - /test/test1
+        - /test/test2
+    global-response-trace-id:
+      enable: true  # 启用全局响应处理（AOP）。默认值: true
+      order: 21000  # 全局响应处理的切面顺序。默认值: 21000
+      header-name: Trace-Id # TraceId响应头的名字
       # 全局响应忽略处理的URL，用AntPathMatcher实现，支持通配符，例如：/webjars/**。
       # 默认值: 空。（内部已自动跳过swagger相关url）
       ignore-url:

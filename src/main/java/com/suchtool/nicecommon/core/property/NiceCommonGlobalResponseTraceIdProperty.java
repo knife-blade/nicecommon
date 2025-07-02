@@ -5,10 +5,10 @@ import lombok.Data;
 import java.util.List;
 
 /**
- * 全局响应处理
+ * 全局响应添加TraceId
  */
 @Data
-public class NiceCommonGlobalResponseProperty {
+public class NiceCommonGlobalResponseTraceIdProperty {
     /**
      * 启用
      */
@@ -17,7 +17,12 @@ public class NiceCommonGlobalResponseProperty {
     /**
      * 切面的顺序
      */
-    private Integer adviceOrder = 25000;
+    private Integer order = 21000;
+
+    /**
+     * TraceId响应头名称
+     */
+    private String headerName = "Trace-Id";
 
     /**
      * 忽略处理的URL
