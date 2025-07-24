@@ -71,9 +71,10 @@ public class NiceCommonConfiguration {
         return new NiceCommonDateTimeFormPrettyConfiguration();
     }
 
+    @Configuration(value = "com.suchtool.nicelog.niceCommonMybatisFillSQLConfiguration", proxyBeanMethods = false)
     @ConditionalOnClass(Interceptor.class)
     @ConditionalOnBean(NiceCommonMyBatisFillSQLProvider.class)
-    protected static class KafkaAspectConfiguration {
+    protected static class NiceCommonMybatisFillSQLConfiguration {
         @Bean("com.suchtool.nicecommon.niceCommonMybatisFillUpdateSqlInterceptor")
         public NiceCommonMyBatisFillSQLInterceptor niceCommonMybatisFillUpdateSqlInterceptor() {
             return new NiceCommonMyBatisFillSQLInterceptor();
