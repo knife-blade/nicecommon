@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.suchtool.nicecommon.core.model.PageBO;
 import com.suchtool.nicecommon.core.model.PageVO;
 import com.suchtool.nicetool.util.base.BeanUtil;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -55,5 +56,31 @@ public class PageUtil {
         pageVO.setDataList(copy);
 
         return pageVO;
+    }
+
+    public static <T> PageVO<T> toPage(List<T> list, PageBO pageBO, Long startPageIndex) {
+        Long tmpStartPageIndex = startPageIndex != null
+                ? startPageIndex
+                : 1;
+
+        PageVO<T> PageVO = new PageVO<>();
+        PageVO.setPageSize(pageBO.getPageSize());
+        PageVO.setCurrentPageIndex(pageBO.getCurrentPageIndex());
+
+        long allSize = 0;
+        List<T> listResult = null;
+
+        if (!CollectionUtils.isEmpty(list)) {
+            int startIndex = (int) ((pageBO.getCurrentPageIndex() - tmpStartPageIndex)
+                    * pageBO.getPageSize());
+            allSize = list.size();
+            long dataSize = allSize - startIndex;
+            listResult = list.subList(startIndex, (int)(dataSize - startIndex));
+        }
+
+        PageVO.setTotalSize(allSize);
+        PageVO.setDataList(listResult);
+
+        return PageVO;
     }
 }
