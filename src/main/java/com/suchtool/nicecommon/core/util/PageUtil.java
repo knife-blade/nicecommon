@@ -10,7 +10,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 public class PageUtil {
-    public static <T> Page<T> toPage(PageBO pageBO) {
+    public static <T> Page<T> toPageVO(PageBO pageBO) {
         Page<T> page = new Page<>();
         page.setSize(pageBO.getPageSize());
         page.setCurrent(pageBO.getCurrentPageIndex());
@@ -58,7 +58,7 @@ public class PageUtil {
         return pageVO;
     }
 
-    public static <T> PageVO<T> toPage(List<T> list, PageBO pageBO, Long startPageIndex) {
+    public static <T> PageVO<T> toPageVO(List<T> list, PageBO pageBO, Long startPageIndex) {
         Long tmpStartPageIndex = startPageIndex != null
                 ? startPageIndex
                 : 1;
