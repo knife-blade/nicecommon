@@ -63,9 +63,9 @@ public class PageUtil {
                 ? startPageIndex
                 : 1;
 
-        PageVO<T> PageVO = new PageVO<>();
-        PageVO.setPageSize(pageBO.getPageSize());
-        PageVO.setCurrentPageIndex(pageBO.getCurrentPageIndex());
+        PageVO<T> pageVO = new PageVO<>();
+        pageVO.setPageSize(pageBO.getPageSize());
+        pageVO.setCurrentPageIndex(pageBO.getCurrentPageIndex());
 
         long allSize = 0;
         List<T> listResult = null;
@@ -78,9 +78,9 @@ public class PageUtil {
             listResult = list.subList(startIndex, (int)(dataSize - startIndex));
         }
 
-        PageVO.setTotalSize(allSize);
-        PageVO.setDataList(listResult);
+        pageVO.setTotalSize(allSize);
+        pageVO.setDataList(listResult);
 
-        return PageVO;
+        return pageVO;
     }
 }
