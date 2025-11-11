@@ -25,11 +25,11 @@ import java.util.stream.Collectors;
 public class NiceCommonGlobalExceptionAdvice implements Ordered {
     private final int order;
 
-    private final Boolean enableGlobalExceptionAdviceLog;
+    private final NiceCommonGlobalExceptionProperty globalExceptionProperty;
 
     public NiceCommonGlobalExceptionAdvice(NiceCommonGlobalExceptionProperty property) {
         this.order = property.getAdviceOrder();
-        this.enableGlobalExceptionAdviceLog = property.getEnableLog();
+        this.globalExceptionProperty = property;
     }
 
     @Override
@@ -106,7 +106,7 @@ public class NiceCommonGlobalExceptionAdvice implements Ordered {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(", "));
 
-        if (enableGlobalExceptionAdviceLog) {
+        if (Boolean.TRUE.equals(globalExceptionProperty.getEnableLog())) {
             NiceLogUtil.createBuilder()
                     .mark("数据校验异常")
                     .errorInfo(errorInfo)
@@ -139,7 +139,7 @@ public class NiceCommonGlobalExceptionAdvice implements Ordered {
             }
         }
 
-        if (enableGlobalExceptionAdviceLog) {
+        if (Boolean.TRUE.equals(globalExceptionProperty.getEnableLog())) {
             if (Boolean.TRUE.equals(isError)) {
                 NiceLogUtil.createBuilder()
                         .mark(mark)
@@ -152,6 +152,13 @@ public class NiceCommonGlobalExceptionAdvice implements Ordered {
                         .mark(mark)
                         .throwable(causeThrowable)
                         .info();
+            }
+
+            if (Boolean.TRUE.equals(globalExceptionProperty.getDirectPrintStackTrace())) {
+                if (throwable instanceof Exception) {
+                    Exception exception = (Exception) throwable;
+                    exception.printStackTrace();
+                }
             }
         }
 

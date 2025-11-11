@@ -21,4 +21,9 @@ public class NiceCommonGlobalExceptionProperty {
      * 切面的顺序
      */
     private Integer adviceOrder = 20000;
+
+    /**
+     * 是否用e.printStackTrace()直接打印栈追踪
+     */
+    private Boolean directPrintStackTrace = false;
 }
