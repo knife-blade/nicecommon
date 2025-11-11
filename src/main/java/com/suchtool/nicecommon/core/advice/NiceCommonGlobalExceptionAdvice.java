@@ -50,7 +50,7 @@ public class NiceCommonGlobalExceptionAdvice implements Ordered {
     }
 
     @ExceptionHandler(Error.class)
-    public ResultWrapper<?> handleError(Error e)  {
+    public ResultWrapper<?> handleError(Error e) {
         String errorMessage = process(e, "错误");
 
         // 若某个自定义异常有@ResponseStatus注解，就继续抛出，这样状态码就能正常响应
@@ -85,7 +85,7 @@ public class NiceCommonGlobalExceptionAdvice implements Ordered {
 
     @ExceptionHandler(CustomResultException.class)
     public ResultWrapper<?> handleCustomResultException(CustomResultException e) {
-        process(e, "自定义返回值异常");
+        process(e, "自定义返回值异常", false);
 
         return e.getResult();
     }
@@ -118,25 +118,41 @@ public class NiceCommonGlobalExceptionAdvice implements Ordered {
     }
 
     private String process(Throwable throwable, String mark) {
-        String lastStackTraceString = null;
-        String errorMessage = throwable.getMessage();
-        Throwable causeThrowable = throwable;
+        return process(throwable, mark, true);
+    }
 
-        if (throwable.getCause() != null) {
+    private String process(Throwable throwable, String mark, Boolean isError) {
+        Throwable causeThrowable = null;
+        String lastStackTraceString = null;
+        String errorMessage = null;
+
+        if (throwable.getCause() == null) {
+            causeThrowable = throwable;
+            errorMessage = throwable.getMessage();
+        } else {
             causeThrowable = throwable.getCause();
-            lastStackTraceString = ThrowableUtil.stackTraceToString(throwable);
+            lastStackTraceString = ThrowableUtil.stackTraceToString(causeThrowable);
+
+            errorMessage = throwable.getMessage();
             if (!StringUtils.hasText(errorMessage)) {
                 errorMessage = causeThrowable.getMessage();
             }
         }
 
         if (enableGlobalExceptionAdviceLog) {
-            NiceLogUtil.createBuilder()
-                    .mark(mark)
-                    .message(errorMessage)
-                    .throwable(causeThrowable)
-                    .errorInfo(lastStackTraceString)
-                    .error();
+            if (Boolean.TRUE.equals(isError)) {
+                NiceLogUtil.createBuilder()
+                        .mark(mark)
+                        .message(errorMessage)
+                        .throwable(causeThrowable)
+                        .errorInfo(lastStackTraceString)
+                        .error();
+            } else {
+                NiceLogUtil.createBuilder()
+                        .mark(mark)
+                        .throwable(causeThrowable)
+                        .info();
+            }
         }
 
         return errorMessage;
