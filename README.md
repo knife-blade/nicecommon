@@ -59,6 +59,7 @@ suchtool:
       enable: true  # 启用全局异常处理（Advice）。默认值: true
       enable-log: true  # 启用全局异常处理的日志打印。默认值: true
       advice-order: 20000  # 全局异常处理的切面顺序。默认值: 20000
+      direct-print-stack-trace: false # 是否用e.printStackTrace()直接打印栈追踪。默认值：false
     global-response-wrapper:
       enable: true  # 启用全局响应处理（Advice）。默认值: true
       order: 25000  # 全局响应处理的切面顺序。默认值: 25000
