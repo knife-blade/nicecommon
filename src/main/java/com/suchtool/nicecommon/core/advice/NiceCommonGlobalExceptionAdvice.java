@@ -131,7 +131,7 @@ public class NiceCommonGlobalExceptionAdvice implements Ordered {
             errorMessage = throwable.getMessage();
         } else {
             causeThrowable = throwable.getCause();
-            lastStackTraceString = ThrowableUtil.stackTraceToString(causeThrowable);
+            lastStackTraceString = ThrowableUtil.stackTraceToString(throwable);
 
             errorMessage = throwable.getMessage();
             if (!StringUtils.hasText(errorMessage)) {
